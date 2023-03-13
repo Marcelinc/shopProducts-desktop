@@ -1,20 +1,25 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
+import { readFile } from '../readFile'
+import { writeFile } from '../writeFile'
 
 const IS_DEV = process.env.IS_IN_DEVELOPMENT || false
 
 //if app not working, uncomment 
-app.commandLine.appendSwitch('no-sandbox');
+//app.commandLine.appendSwitch('no-sandbox');
 
+let win
 
 function createWindow () {
   // Create the main Electron window
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+  win = new BrowserWindow({
+    width: 1000,
+    height: 800,
     webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule: true
+      nodeIntegration: false,
+      enableRemoteModule: false,
+      contextIsolation: true,
+      preload: path.join(__dirname,"preload.js")
     }
   })
 
@@ -45,4 +50,15 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
   }
+})
+
+
+
+ipcMain.on('toMainReadFile',(event,args) => {
+  readFile('katalog.txt',win)
+    //
+})
+
+ipcMain.on('toMainWriteFile',(event,args) => {
+  writeFile('katalog.txt',args,win)
 })

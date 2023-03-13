@@ -1,0 +1,15 @@
+table,th,td{
+    border: 1px solid black;
+    padding: 10px 5px;
+    border-collapse: collapse;
+}
+.container {
+    overflow-x: auto;
+    position: relative;
+}
+.buttons {
+    margin-inline: 1em;
+}
+.buttons,.content{
+    margin-inline: 2em;
+}

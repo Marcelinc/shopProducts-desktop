@@ -1,0 +1,30 @@
+.popup{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(70, 64, 64, 0.856);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.popup .content{
+    background-color: #1a243b;
+    width: 450px;
+    height: 200px;
+    border-radius: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: aliceblue;
+    padding: 20px;
+    text-align: center;
+}
+.content #info{
+    margin: 1em;
+}
+#bttns button{
+    margin-inline: 1em;
+}
