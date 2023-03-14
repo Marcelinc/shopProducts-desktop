@@ -13,8 +13,9 @@ let win
 function createWindow () {
   // Create the main Electron window
   win = new BrowserWindow({
-    width: 1000,
+    width: 1500,
     height: 800,
+    title: 'Shop Products',
     webPreferences: {
       nodeIntegration: false,
       enableRemoteModule: false,

@@ -2,9 +2,9 @@ table,th,td{
     border: 1px solid black;
     padding: 10px 5px;
     border-collapse: collapse;
+    text-align: center;
 }
 .container {
-    overflow-x: auto;
     position: relative;
 }
 .buttons {

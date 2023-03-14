@@ -9,18 +9,18 @@ const Popup = ({setWarning,badData,products}) => {
   //console.log('badData',badData)
 
   const backToWindow = () => {
+    //color all rows to white
+    for(let i=0;i<products.length; i++){
+      let row = document.querySelector('#row'+i)
+      if(row)
+        row.style.backgroundColor="white"
+    }
+    //if not saved color rows with warnings
     if(!saved){
-      //check if data not empty
       badData.forEach(data => {
         let row = document.querySelector('#row'+data)
         if(row)
           row.style.backgroundColor="orange"
-      })
-    } else{
-      badData.forEach(data => {
-        let row = document.querySelector('#row'+data)
-        if(row)
-          row.style.backgroundColor="white"
       })
     }
     

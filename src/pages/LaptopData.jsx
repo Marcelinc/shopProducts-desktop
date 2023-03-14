@@ -21,7 +21,10 @@ const LaptopData = () => {
       setBadData([])
       let tempData = []
       products.forEach((product,item) => {
-        if(product.includes(''))
+        console.log(product[12])
+        if(product.includes('') || !product[1].match(/^[0-9]+"$/) || !product[2].match(/^[1-9][0-9]+x[1-9][0-9]+$/) || !product[6].match(/^[1-9]+$/) || !product[7].match(/^[1-9][0-9]+$/) ||
+          !product[8].match(/^[1-9]+GB$/) || !product[9].match(/^[1-9][0-9]+GB$/) || !product[12].match(/^[1-9][0-9]+GB$/))  
+          //checking if there are empty cells || if cell 1 is 12", || 1000x800 || liczba rdzeni np. 4 || taktowanie || ram - 8GB || pojemność dysku - 500GB || pamięć układu graficznego
           tempData.push(item)
       })
       //console.log(tempData)
@@ -63,7 +66,7 @@ const LaptopData = () => {
         <section className='content'>
           <table>
             <thead>
-              <tr>
+              {products.length > 0 && <tr>
                 <th>Nr.</th>
                 <th>Producent</th>
                 <th>Przekątna ekranu</th>
@@ -80,7 +83,7 @@ const LaptopData = () => {
                 <th>Pamięć</th>
                 <th>System</th>
                 <th>Napęd</th>
-              </tr>
+              </tr>}
             </thead>
             <tbody>
               {products.length > 0 && products.map((product,item) => <tr key={item} id={'row'+item}>
