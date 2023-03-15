@@ -6,7 +6,7 @@ import { writeFile } from '../writeFile'
 const IS_DEV = process.env.IS_IN_DEVELOPMENT || false
 
 //if app not working, uncomment 
-//app.commandLine.appendSwitch('no-sandbox');
+app.commandLine.appendSwitch('no-sandbox');
 
 let win
 

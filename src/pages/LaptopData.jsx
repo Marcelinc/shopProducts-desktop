@@ -23,7 +23,7 @@ const LaptopData = () => {
       products.forEach((product,item) => {
         console.log(product[12])
         if(product.includes('') || !product[1].match(/^[0-9]+"$/) || !product[2].match(/^[1-9][0-9]+x[1-9][0-9]+$/) || !product[6].match(/^[1-9]+$/) || !product[7].match(/^[1-9][0-9]+$/) ||
-          !product[8].match(/^[1-9]+GB$/) || !product[9].match(/^[1-9][0-9]+GB$/) || !product[12].match(/^[1-9][0-9]+GB$/))  
+          !product[8].match(/^[1-9]+GB$/) || !product[9].match(/^[1-9][0-9]+GB$/) || !product[12].match(/^[1-9][0-9]*GB$/))  
           //checking if there are empty cells || if cell 1 is 12", || 1000x800 || liczba rdzeni np. 4 || taktowanie || ram - 8GB || pojemność dysku - 500GB || pamięć układu graficznego
           tempData.push(item)
       })
