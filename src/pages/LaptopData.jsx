@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Button from '../components/Button'
 import Popup from '../components/Popup'
+import { converterArray2XML } from '../scripts/converterArray2XML'
+import { converterObj2Array } from '../scripts/converterObj2Array'
 import '../styles/LaptopData.css'
 
 const LaptopData = () => {
@@ -21,7 +23,7 @@ const LaptopData = () => {
       setBadData([])
       let tempData = []
       products.forEach((product,item) => {
-        console.log(product[12])
+        //console.log(product[12])
         if(product.includes('') || !product[1].match(/^[0-9]+"$/) || !product[2].match(/^[1-9][0-9]+x[1-9][0-9]+$/) || !product[6].match(/^[1-9]+$/) || !product[7].match(/^[1-9][0-9]+$/) ||
           !product[8].match(/^[1-9]+GB$/) || !product[9].match(/^[1-9][0-9]+GB$/) || !product[12].match(/^[1-9][0-9]*GB$/))  
           //checking if there are empty cells || if cell 1 is 12", || 1000x800 || liczba rdzeni np. 4 || taktowanie || ram - 8GB || pojemność dysku - 500GB || pamięć układu graficznego
@@ -32,6 +34,17 @@ const LaptopData = () => {
         setBadData(tempData)
         setWarning(true)
       }
+    }
+
+    const loadXML = () => {
+      window.api.send('toMainReadXML')
+      window.api.receive('fromMainReadXML', (data) => {
+        setProducts(converterObj2Array(data.laptops.laptop))
+      })
+    }
+
+    const saveXML = () => {
+      window.api.send('toMainWriteXML',converterArray2XML(products))
     }
 
     const setInput = (e,row,col) => {
@@ -62,6 +75,8 @@ const LaptopData = () => {
         <section className='buttons'>
             <Button text='Wczytaj dane z pliku TXT' handler={loadFile}/>
             <Button text='Zapisz dane do pliku TXT' handler={saveFile}/>
+            <Button text='Wczytaj dane z pliku XML' handler={loadXML}/>
+            <Button text='Zapisz dane do pliku XML' handler={saveXML}/>
         </section>
         <section className='content'>
           <table>

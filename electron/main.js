@@ -2,6 +2,8 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
 import { readFile } from '../readFile'
 import { writeFile } from '../writeFile'
+import { readXML } from '../readXML'
+import { writeXML } from '../writeXML'
 
 const IS_DEV = process.env.IS_IN_DEVELOPMENT || false
 
@@ -54,7 +56,7 @@ app.on('activate', () => {
 })
 
 
-
+//reading txt
 ipcMain.on('toMainReadFile',(event,args) => {
   readFile('katalog.txt',win)
     //
@@ -62,4 +64,12 @@ ipcMain.on('toMainReadFile',(event,args) => {
 
 ipcMain.on('toMainWriteFile',(event,args) => {
   writeFile('katalog.txt',args,win)
+})
+
+//reading xml
+ipcMain.on('toMainReadXML',(event,args) => {
+  readXML('katalog.xml',win)
+})
+ipcMain.on('toMainWriteXML',(event,args) => {
+  writeXML(args)
 })
