@@ -1,6 +1,6 @@
 export const converterObj2Array = (data) => {
     let productsArray = []
-    //console.log(data)
+    console.log(data)
     data.map(d => {
         //console.log(d.disc[0].$.type)
         productsArray.push([

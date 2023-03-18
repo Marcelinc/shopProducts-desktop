@@ -14,6 +14,7 @@ export const converterArray2XML = arrayProducts => {
                         $: {
                             id: item+1
                         },
+                        
                         disc: [
                             {
                                 $: {type: product[10]},

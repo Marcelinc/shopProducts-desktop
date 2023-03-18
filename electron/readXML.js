@@ -10,7 +10,7 @@ const readXML = (filename,win) => {
         if(!err){
             parser.parseString(data, (err,result) => {
                 if(!err){
-                    //console.log(result)
+                    console.log(result)
                     win.webContents.send('fromMainReadXML',result)
                 }
                     

@@ -56,7 +56,7 @@ const LaptopData = () => {
         if(e.keyCode === 13){
           //read data from input
           let newContent = e.target.value
-          console.log(e.target.offsetParent)
+          //console.log(e.target.offsetParent)
           //save new given data to products
           let updatedProducts = products
           updatedProducts[row][col] = newContent
