@@ -45,6 +45,9 @@ const LaptopData = () => {
 
     const saveXML = () => {
       window.api.send('toMainWriteXML',converterArray2XML(products))
+      window.api.receive('fromMainWriteXML',res => {
+        console.log(res)
+      })
     }
 
     const setInput = (e,row,col) => {

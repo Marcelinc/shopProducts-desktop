@@ -71,5 +71,5 @@ ipcMain.on('toMainReadXML',(event,args) => {
   readXML('katalog.xml',win)
 })
 ipcMain.on('toMainWriteXML',(event,args) => {
-  writeXML(args)
+  writeXML(args,win)
 })
