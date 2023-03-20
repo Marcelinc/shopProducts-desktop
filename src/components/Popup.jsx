@@ -1,12 +1,13 @@
 import React, {useState} from 'react'
 import '../styles/Popup.css'
+import { converterArray2XML } from '../scripts/converterArray2XML'
 
-const Popup = ({setWarning,badData,products}) => {
+const Popup = ({setWarning,badData,products,fileType}) => {
 
   const [loading,setLoading] = useState(false)
   const [saved,setSaved] = useState(false)
 
-  //console.log('badData',badData)
+  console.log('fileType',fileType)
 
   const backToWindow = () => {
     //color all rows to white
@@ -33,13 +34,24 @@ const Popup = ({setWarning,badData,products}) => {
     //console.log('productsTosave:',products)
 
     //saveToFile
-    window.api.send('toMainWriteFile',products)
+    if(fileType === 'TXT'){
+      window.api.send('toMainWriteFile',products)
 
-    window.api.receive('fromMainWriteFile', response => {
-      //console.log('Updated: ',response)
-      setSaved(true)
-      setLoading(false)
-    })
+      window.api.receive('fromMainWriteFile', response => {
+        //console.log('Updated: ',response)
+        setSaved(response)
+        setLoading(false)
+      })
+    }
+    
+    if(fileType === "XML"){
+      window.api.send('toMainWriteXML',converterArray2XML(products))
+      window.api.receive('fromMainWriteXML',res => {
+        //console.log(res)
+        setSaved(res)
+        setLoading(false)
+      })
+    }
 
     //close popup
     //setWarning(false)

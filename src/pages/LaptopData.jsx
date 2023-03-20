@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Button from '../components/Button'
 import Popup from '../components/Popup'
-import { converterArray2XML } from '../scripts/converterArray2XML'
 import { converterObj2Array } from '../scripts/converterObj2Array'
 import '../styles/LaptopData.css'
 
@@ -10,8 +9,11 @@ const LaptopData = () => {
     const [products,setProducts] = useState([])
     const [showWarning,setWarning] = useState(false)
     const [badData,setBadData] = useState([])
+    const [fileType,setType] = useState('TXT')
+    const [readingFile,setReadingFile] = useState('TXT')
 
     const loadFile = () => {
+      setReadingFile('TXT')
       window.api.send('toMainReadFile')
       window.api.receive("fromMainReadFile", (data) => {
        //console.log(`Received ${data} from main process`);
@@ -19,7 +21,7 @@ const LaptopData = () => {
       });
     }
 
-    const saveFile = () => {
+    const saveFile = (type) => {
       setBadData([])
       let tempData = []
       products.forEach((product,item) => {
@@ -29,6 +31,10 @@ const LaptopData = () => {
           //checking if there are empty cells || if cell 1 is 12", || 1000x800 || liczba rdzeni np. 4 || taktowanie || ram - 8GB || pojemność dysku - 500GB || pamięć układu graficznego
           tempData.push(item)
       })
+
+      //set fileType to save
+      setType(type)
+
       //console.log(tempData)
       if(tempData.length > 0){
         setBadData(tempData)
@@ -37,16 +43,10 @@ const LaptopData = () => {
     }
 
     const loadXML = () => {
+      setReadingFile('XML')
       window.api.send('toMainReadXML')
       window.api.receive('fromMainReadXML', (data) => {
         setProducts(converterObj2Array(data.laptops.laptop))
-      })
-    }
-
-    const saveXML = () => {
-      window.api.send('toMainWriteXML',converterArray2XML(products))
-      window.api.receive('fromMainWriteXML',res => {
-        console.log(res)
       })
     }
 
@@ -77,11 +77,12 @@ const LaptopData = () => {
     <div className='container'>
         <section className='buttons'>
             <Button text='Wczytaj dane z pliku TXT' handler={loadFile}/>
-            <Button text='Zapisz dane do pliku TXT' handler={saveFile}/>
+            <Button text='Zapisz dane do pliku TXT' handler={() => saveFile('TXT')}/>
             <Button text='Wczytaj dane z pliku XML' handler={loadXML}/>
-            <Button text='Zapisz dane do pliku XML' handler={saveXML}/>
+            <Button text='Zapisz dane do pliku XML' handler={() => saveFile('XML')}/>
         </section>
         <section className='content'>
+          {products.length > 0 && <p>Plik {readingFile}</p>}
           <table>
             <thead>
               {products.length > 0 && <tr>
@@ -125,7 +126,7 @@ const LaptopData = () => {
             </tbody>
           </table>
         </section>
-        {showWarning && <Popup setWarning={setWarning} badData={badData} products={products}/>}
+        {showWarning && <Popup setWarning={setWarning} badData={badData} products={products} fileType={fileType}/>}
     </div>
   )
 }

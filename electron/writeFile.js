@@ -1,7 +1,7 @@
 const fs = require('fs')
 
 const writeFile = (filename,data,win) => {
-    console.log('przyslane:',data)
+    //console.log('przyslane:',data)
     let content = ''
     let updated = true
 

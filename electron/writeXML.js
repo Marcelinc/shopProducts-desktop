@@ -2,7 +2,7 @@ const { Builder } = require("xml2js");
 const fs = require('fs')
 
 const writeXML = (data,win) => {
-    //console.log(data)
+    console.log(data)
     let updated = true
     const builder = new Builder()
     const xml = builder.buildObject(data)
