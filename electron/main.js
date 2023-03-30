@@ -1,9 +1,11 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
-import { readFile } from '../readFile'
+import { readFile } from '../readFile.js'
 import { writeFile } from '../writeFile'
 import { readXML } from '../readXML'
 import { writeXML } from '../writeXML'
+import { readDB } from '../readDB.js'
+import { Sequelize } from 'sequelize'
 
 const IS_DEV = process.env.IS_IN_DEVELOPMENT || false
 
@@ -12,7 +14,7 @@ app.commandLine.appendSwitch('no-sandbox');
 
 let win
 
-function createWindow () {
+async function createWindow () {
   // Create the main Electron window
   win = new BrowserWindow({
     width: 1500,
@@ -29,7 +31,7 @@ function createWindow () {
   if (IS_DEV) {
     // If we are in development mode we load content from localhost server - vite
     // and open the developer tools
-    win.loadURL('http://localhost:5173/')
+    await win.loadURL('http://localhost:5173/')
     win.webContents.openDevTools()
   } else {
     // In all other cases, load the index.html file from the dist folder
@@ -72,4 +74,9 @@ ipcMain.on('toMainReadXML',(event,args) => {
 })
 ipcMain.on('toMainWriteXML',(event,args) => {
   writeXML(args,win)
+})
+
+//reading DB
+ipcMain.on('toMainReadDB',(event,args) => {
+  readDB(Sequelize,win)
 })

@@ -73,16 +73,30 @@ const LaptopData = () => {
       e.target.appendChild(input)
     }
 
+    const readDB = () => {
+      setReadingFile('Database')
+      window.api.send('toMainReadDB')
+      window.api.receive('fromMainReadDB', (data) => {
+        console.log(data)
+      })
+    }
+
+    const writeDB = () => {
+      console.log('writeDB')
+    }
+
   return (
     <div className='container'>
         <section className='buttons'>
             <Button text='Wczytaj dane z pliku TXT' handler={loadFile}/>
             <Button text='Zapisz dane do pliku TXT' handler={() => saveFile('TXT')}/>
+            <Button text='Import z Bazy Danych' handler={readDB}/>
+            <Button text='Eksport do Bazy Danych' handler={writeDB}/>
             <Button text='Wczytaj dane z pliku XML' handler={loadXML}/>
             <Button text='Zapisz dane do pliku XML' handler={() => saveFile('XML')}/>
         </section>
         <section className='content'>
-          {products.length > 0 && <p>Plik {readingFile}</p>}
+          {products.length > 0 && <p>Źródło: {readingFile}</p>}
           <table>
             <thead>
               {products.length > 0 && <tr>
