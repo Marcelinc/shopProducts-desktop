@@ -29,13 +29,17 @@ const readDB = async (Sequelize,win) => {
                 model: Screen,
                 attributes: {exclude: ['createdAt','updatedAt']}
             },{
-                model: Processor
+                model: Processor,
+                attributes: {exclude: ['createdAt','updatedAt']}
             },{
-                model: Ram
+                model: Ram,
+                attributes: {exclude: ['createdAt','updatedAt']}
             },{
-                model: Disc
+                model: Disc,
+                attributes: {exclude: ['createdAt','updatedAt']}
             },{
-                model: Graphic_card
+                model: Graphic_card,
+                attributes: {exclude: ['createdAt','updatedAt']}
             }]
         }).then(res => {
             //console.log('db: ',res)
@@ -43,12 +47,12 @@ const readDB = async (Sequelize,win) => {
         })
         .catch(err => {
             console.log(err)
-            win.webContents.send('fromMainReadDB','Pobieranie danych nie powiodło się')
         })
     
     } catch(err){
         //console.log('Connection to db failed: ',err)
         console.log('Connection to db failed. ',err)
+        win.webContents.send('fromMainReadDB','Pobieranie danych nie powiodło się')
     }
 
     

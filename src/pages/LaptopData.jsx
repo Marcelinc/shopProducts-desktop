@@ -3,6 +3,7 @@ import Button from '../components/Button'
 import Popup from '../components/Popup'
 import { converterObj2Array } from '../scripts/converterObj2Array'
 import '../styles/LaptopData.css'
+import { converterDB2Array } from '../scripts/converterDB2Array'
 
 const LaptopData = () => {
 
@@ -77,7 +78,8 @@ const LaptopData = () => {
       setReadingFile('Database')
       window.api.send('toMainReadDB')
       window.api.receive('fromMainReadDB', (data) => {
-        console.log(data)
+        //console.log(data)
+        setProducts(converterDB2Array(data))
       })
     }
 
