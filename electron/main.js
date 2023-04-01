@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, Menu } from 'electron'
 import path from 'path'
 import { readFile } from '../readFile.js'
 import { writeFile } from '../writeFile'
@@ -6,6 +6,7 @@ import { readXML } from '../readXML'
 import { writeXML } from '../writeXML'
 import { readDB } from '../readDB.js'
 import { Sequelize } from 'sequelize'
+import { seedDB } from '../config/seedDB.js'
 
 const IS_DEV = process.env.IS_IN_DEVELOPMENT || false
 
@@ -39,6 +40,37 @@ async function createWindow () {
   }
 }
 
+
+//Menu
+const menuTemplate = [{
+    label: 'seedDB',
+    click(){
+      seedDB()
+    }
+  }
+]
+
+if(process.platform == 'darwin')
+  menuTemplate.unshift({});
+
+if(IS_DEV)
+  menuTemplate.push({
+    label: 'DevTools',
+    submenu:[{
+        label: 'Toogle DevTools',
+        accelerator: process.platform == 'darwin' ? 'Command+I' : 'Ctrl+I',
+        click(item,focusedWindow){
+          focusedWindow.toggleDevTools();
+        }
+      },{
+        role: 'reload'
+      }
+    ]
+  })
+const menu = Menu.buildFromTemplate(menuTemplate)
+Menu.setApplicationMenu(menu)
+
+
 app.whenReady().then(createWindow)
 
 app.on('window-all-closed', () => {
@@ -58,12 +90,13 @@ app.on('activate', () => {
 })
 
 
+
+
 //reading txt
 ipcMain.on('toMainReadFile',(event,args) => {
   readFile('katalog.txt',win)
     //
 })
-
 ipcMain.on('toMainWriteFile',(event,args) => {
   writeFile('katalog.txt',args,win)
 })
