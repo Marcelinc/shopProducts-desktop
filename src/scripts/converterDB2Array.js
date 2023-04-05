@@ -1,6 +1,6 @@
 export const converterDB2Array = (data) => {
     var dataArray = []
-    console.log('data',data)
+    //console.log('data',data)
     data.map(d => dataArray.push([
         d.manufacturer,
         d['Screen.size'],
@@ -8,8 +8,8 @@ export const converterDB2Array = (data) => {
         d['Screen.type'],
         d['Screen.touch'] ? 'yes' : 'no',
         d['Processor.name'],
-        d['Processor.physical_cores'],
-        d['Processor.clock_speed'],
+        d['Processor.physical_cores']+'',
+        d['Processor.clock_speed']+'',
         d['Ram.capacity'],
         d['Disc.storage'],
         d['Disc.type'],
@@ -19,5 +19,6 @@ export const converterDB2Array = (data) => {
         d.disc_reader
     ]))
 
+    //console.log('dataArray:',dataArray)
     return dataArray
 }

@@ -4,6 +4,10 @@ table,th,td{
     border-collapse: collapse;
     text-align: center;
 }
+tr{
+    background-color: rgb(78, 74, 74);
+    color: rgb(30, 231, 147);
+}
 .container {
     position: relative;
 }

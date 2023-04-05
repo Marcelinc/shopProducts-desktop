@@ -43,10 +43,12 @@ async function createWindow () {
 
 //Menu
 const menuTemplate = [{
-    label: 'seedDB',
+    label: 'Napełnij bazę',
     click(){
       seedDB()
     }
+  },{
+    label: 'Legenda'
   }
 ]
 

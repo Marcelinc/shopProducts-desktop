@@ -1,33 +1,50 @@
 import React, { useState, useEffect } from 'react'
 import Button from '../components/Button'
-import Popup from '../components/Popup'
+import SavingPopup from '../components/SavingPopup'
 import { converterObj2Array } from '../scripts/converterObj2Array'
 import '../styles/LaptopData.css'
 import { converterDB2Array } from '../scripts/converterDB2Array'
+import { check4duplicates } from '../scripts/duplicates'
+import { colorRows } from '../scripts/colorRows'
 
 const LaptopData = () => {
 
     const [products,setProducts] = useState([])
+    const [records,setRecords] = useState(0)
+    const [duplicatesCount,setDuplicatesCount] = useState(0)
     const [showWarning,setWarning] = useState(false)
     const [badData,setBadData] = useState([])
     const [fileType,setType] = useState('TXT')
     const [readingFile,setReadingFile] = useState('TXT')
 
-    const loadFile = () => {
+    const loadTXT = () => {
       setReadingFile('TXT')
       window.api.send('toMainReadFile')
       window.api.receive("fromMainReadFile", (data) => {
        //console.log(`Received ${data} from main process`);
-       setProducts(data)
+       check4duplicates(products,data)
+       setProducts([...data,...products])
+       colorRows([...data,...products])
       });
     }
 
+    const loadXML = () => {
+      setReadingFile('XML')
+      window.api.send('toMainReadXML')
+      window.api.receive('fromMainReadXML', (data) => {
+        var convertedData = converterObj2Array(data.laptops.laptop)
+        check4duplicates(products,convertedData)
+        setProducts([...convertedData,...products])
+        colorRows([...convertedData,...products])
+      })
+    }
+
     const saveFile = (type) => {
+      console.log('check data')
       setBadData([])
       let tempData = []
       products.forEach((product,item) => {
-        //console.log(product[12])
-        if(product.includes('') || !product[1].match(/^[0-9]+"$/) || !product[2].match(/^[1-9][0-9]+x[1-9][0-9]+$/) || !product[6].match(/^[1-9]+$/) || !product[7].match(/^[1-9][0-9]+$/) ||
+        if(product.includes('') || !product[1].match(/^[0-9]+"$/) || !product[2].match(/^[1-9][0-9]+x[1-9][0-9]+$/) || !(product[6]+'').match(/^[1-9]+$/) || !(product[7]+'').match(/^[1-9][0-9]+$/) ||
           !product[8].match(/^[1-9]+GB$/) || !product[9].match(/^[1-9][0-9]+GB$/) || !product[12].match(/^[1-9][0-9]*GB$/))  
           //checking if there are empty cells || if cell 1 is 12", || 1000x800 || liczba rdzeni np. 4 || taktowanie || ram - 8GB || pojemność dysku - 500GB || pamięć układu graficznego
           tempData.push(item)
@@ -39,16 +56,8 @@ const LaptopData = () => {
       //console.log(tempData)
       if(tempData.length > 0){
         setBadData(tempData)
-        setWarning(true)
       }
-    }
-
-    const loadXML = () => {
-      setReadingFile('XML')
-      window.api.send('toMainReadXML')
-      window.api.receive('fromMainReadXML', (data) => {
-        setProducts(converterObj2Array(data.laptops.laptop))
-      })
+      setWarning(true)
     }
 
     const setInput = (e,row,col) => {
@@ -64,8 +73,11 @@ const LaptopData = () => {
           //save new given data to products
           let updatedProducts = products
           updatedProducts[row][col] = newContent
+          updatedProducts[row].push('modified')
           setProducts(updatedProducts)
-
+          //change color
+          document.querySelector('#row'+row).style.backgroundColor = 'white'
+          document.querySelector('#row'+row).style.color = 'black'
           //change input to text
           e.target.offsetParent.innerHTML = newContent
         }
@@ -78,8 +90,15 @@ const LaptopData = () => {
       setReadingFile('Database')
       window.api.send('toMainReadDB')
       window.api.receive('fromMainReadDB', (data) => {
-        //console.log(data)
-        setProducts(converterDB2Array(data))
+        console.log(data)
+        let arrayData = converterDB2Array(data)
+        let dup = check4duplicates(products,arrayData)
+        setDuplicatesCount(dup)
+        setRecords(arrayData.length - dup)
+        //add products to view 
+        setProducts([...arrayData,...products])
+        //color new rows
+        colorRows([...arrayData,...products])
       })
     }
 
@@ -90,7 +109,7 @@ const LaptopData = () => {
   return (
     <div className='container'>
         <section className='buttons'>
-            <Button text='Wczytaj dane z pliku TXT' handler={loadFile}/>
+            <Button text='Wczytaj dane z pliku TXT' handler={loadTXT}/>
             <Button text='Zapisz dane do pliku TXT' handler={() => saveFile('TXT')}/>
             <Button text='Import z Bazy Danych' handler={readDB}/>
             <Button text='Eksport do Bazy Danych' handler={writeDB}/>
@@ -98,7 +117,7 @@ const LaptopData = () => {
             <Button text='Zapisz dane do pliku XML' handler={() => saveFile('XML')}/>
         </section>
         <section className='content'>
-          {products.length > 0 && <p>Źródło: {readingFile}</p>}
+          {products.length > 0 && <p><strong>Źródło:</strong> {readingFile}{readingFile === 'Database' && ', odczytano ' + records + ' nowych rekordów, '+ duplicatesCount + ' duplikatów'} </p>}
           <table>
             <thead>
               {products.length > 0 && <tr>
@@ -142,7 +161,7 @@ const LaptopData = () => {
             </tbody>
           </table>
         </section>
-        {showWarning && <Popup setWarning={setWarning} badData={badData} products={products} fileType={fileType}/>}
+        {showWarning && <SavingPopup setWarning={setWarning} badData={badData} products={products} fileType={fileType}/>}
     </div>
   )
 }

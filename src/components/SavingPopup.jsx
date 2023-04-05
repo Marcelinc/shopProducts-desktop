@@ -60,8 +60,10 @@ const Popup = ({setWarning,badData,products,fileType}) => {
   return (
     <div className='popup'>
         <div className='content'>
-            <h3>Tabela zawiera błędne dane</h3>
-            <span id='info'>Wprowadź prawidłowe dane lub ignoruj i zapisz zmiany do pliku</span>
+            {badData.length > 0 ? <>
+              <h3>Tabela zawiera błędne dane</h3>
+              <span id='info'>Wprowadź prawidłowe dane lub ignoruj i zapisz zmiany do pliku</span>
+            </>: <h3>Zapisywanie do {fileType}</h3>}
             <p id='bttns'>
               <button onClick={backToWindow}>Powrót</button>
               <button onClick={saveToFile} disabled={saved}>{loading ? 'Zapisywanie' : saved ? 'Zapisano' : 'Zapisz'}</button>
