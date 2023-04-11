@@ -7,6 +7,7 @@ import { writeXML } from '../writeXML'
 import { readDB } from '../readDB.js'
 import { Sequelize } from 'sequelize'
 import { seedDB } from '../config/seedDB.js'
+import { writeDB } from '../writeDB.js'
 
 const IS_DEV = process.env.IS_IN_DEVELOPMENT || false
 
@@ -114,4 +115,7 @@ ipcMain.on('toMainWriteXML',(event,args) => {
 //reading DB
 ipcMain.on('toMainReadDB',(event,args) => {
   readDB(Sequelize,win)
+})
+ipcMain.on('toMainWriteDB',(event,args) => {
+  writeDB(Sequelize,args,win)
 })

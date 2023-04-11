@@ -1,2 +1,2 @@
-HP;12";1600x900;matowy;;amd ryzen 5 3600;6;3600;16GB;500GB;SSD;GeForce RTX 3060;12GB;Windows 10;brak;
-HP;10";1400x800;matowy;no;i7;8;3200;8GB;240GB;SSD;intel HD Graphics 4000;1GB;Windows 11;Blu-Ray;
+Asus;12";1600x900;matowy;no;i7;8;3200;8GB;240GB;SSD;intel HD Graphics 4000;1GB;Windows 7 Home;Blu-Ray;
+Dell;16";1376x768;matowyabcaaa;yes;i5;4;;16GB;120GB;;intel HD Graphics 5000;2GB;Windows Vista;brak;

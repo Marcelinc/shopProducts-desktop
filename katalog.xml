@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<laptops moddate="1679480870615">
+<laptops moddate="1680951748006">
   <laptop id="1">
-    <manufacturer>Asus</manufacturer>
+    <manufacturer>HP</manufacturer>
     <screen touch="no">
       <resolution>1600x900</resolution>
       <size>12"</size>
+      <type>matowy</type>
+    </screen>
+    <processor>
+      <name>amd ryzen 5 3600</name>
+      <physical_cores>6</physical_cores>
+      <clock_speed>3600</clock_speed>
+    </processor>
+    <ram>16GB</ram>
+    <disc type="SSD">
+      <storage>500GB</storage>
+    </disc>
+    <graphic_card>
+      <name>GeForce RTX 3060</name>
+      <memory>12GB</memory>
+    </graphic_card>
+    <os>Windows 10</os>
+    <disc_reader>brak</disc_reader>
+  </laptop>
+  <laptop id="2">
+    <manufacturer>HP</manufacturer>
+    <screen touch="no">
+      <resolution>1400x800</resolution>
+      <size>10"</size>
       <type>matowy</type>
     </screen>
     <processor>
@@ -20,30 +43,7 @@
       <name>intel HD Graphics 4000</name>
       <memory>1GB</memory>
     </graphic_card>
-    <os>Windows 7 Home</os>
+    <os>Windows 11</os>
     <disc_reader>Blu-Ray</disc_reader>
-  </laptop>
-  <laptop id="2">
-    <manufacturer>Dell</manufacturer>
-    <screen touch="yes">
-      <resolution>1376x768</resolution>
-      <size>16"</size>
-      <type>matowyabcaaa</type>
-    </screen>
-    <processor>
-      <name>i5</name>
-      <physical_cores>4</physical_cores>
-      <clock_speed/>
-    </processor>
-    <ram>16GB</ram>
-    <disc type="">
-      <storage>120GB</storage>
-    </disc>
-    <graphic_card>
-      <name>intel HD Graphics 5000</name>
-      <memory>2GB</memory>
-    </graphic_card>
-    <os>Windows Vista</os>
-    <disc_reader>brak</disc_reader>
   </laptop>
 </laptops>

@@ -4,11 +4,19 @@ export const check4duplicates = (actualData,fetchedData) => {
     var duplicates = 0
 
     fetched.map(fetchedRow => {
-        console.log(fetchedRow)
-        //for fetched row from db check if exists in fetched data previously
+        console.log('fetchedrow: ',fetchedRow)
+
+        //if(fetchedRow.includes('modified') || fetchedRow.includes('duplicate'))
+            //fetchedRow.pop()
+
+        //for fetched row from file/db check if exists in fetched data previously
         actual.filter(actualRow => {
+            console.log('actualRow: ',actualRow)
             //actualRow.sort()
             //fetchedRow.sort()
+            //if(actualRow.includes('modified') || actualRow.includes('duplicate'))
+            //    actualRow.pop()
+
 
             if(JSON.stringify(actualRow) === JSON.stringify(fetchedRow)){
                 duplicates = duplicates+1
@@ -16,8 +24,6 @@ export const check4duplicates = (actualData,fetchedData) => {
             } 
         })
     })
-
-    console.log('duplicates: ',duplicates)
 
     return duplicates
 }

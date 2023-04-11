@@ -6,13 +6,13 @@ contextBridge.exposeInMainWorld(
     "api", {
         send: (channel, data) => {
             // whitelist channels
-            let validChannels = ["toMainReadFile","toMainWriteFile", 'toMainReadXML','toMainWriteXML','toMainReadDB'];
+            let validChannels = ["toMainReadFile","toMainWriteFile", 'toMainReadXML','toMainWriteXML','toMainReadDB','toMainWriteDB'];
             if (validChannels.includes(channel)) {
                 ipcRenderer.send(channel, data);
             }
         },
         receive: (channel, func) => {
-            let validChannels = ["fromMainReadFile","fromMainWriteFile",'fromMainReadXML','fromMainWriteXML','fromMainReadDB'];
+            let validChannels = ["fromMainReadFile","fromMainWriteFile",'fromMainReadXML','fromMainWriteXML','fromMainReadDB','fromMainWriteDB'];
             if (validChannels.includes(channel)) {
                 // Deliberately strip event as it includes `sender` 
                 ipcRenderer.on(channel, (event, ...args) => func(...args));

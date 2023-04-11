@@ -6,21 +6,20 @@ const Popup = ({setWarning,badData,products,fileType}) => {
 
   const [loading,setLoading] = useState(false)
   const [saved,setSaved] = useState(false)
-
-  console.log('fileType',fileType)
+  const [modified,setModified] = useState(products.filter(p => !p.includes('duplicate')))
 
   const backToWindow = () => {
     //color all rows to white
     for(let i=0;i<products.length; i++){
       let row = document.querySelector('#row'+i)
-      if(row)
-        row.style.backgroundColor="white"
+      //if(row)
+        //row.style.backgroundColor="rgb(78, 74, 74)"
     }
     //if not saved color rows with warnings
     if(!saved){
       badData.forEach(data => {
         let row = document.querySelector('#row'+data)
-        if(row)
+        if(row && !products[data].includes('duplicate'))
           row.style.backgroundColor="orange"
       })
     }
@@ -53,6 +52,15 @@ const Popup = ({setWarning,badData,products,fileType}) => {
       })
     }
 
+    if(fileType === 'DB'){
+      window.api.send('toMainWriteDB',modified)
+      window.api.receive('fromMainWriteDB',res => {
+        console.log('res',res)
+        setSaved(res)
+        setLoading(false)
+      })
+    }
+
     //close popup
     //setWarning(false)
   }
@@ -63,10 +71,11 @@ const Popup = ({setWarning,badData,products,fileType}) => {
             {badData.length > 0 ? <>
               <h3>Tabela zawiera błędne dane</h3>
               <span id='info'>Wprowadź prawidłowe dane lub ignoruj i zapisz zmiany do pliku</span>
-            </>: <h3>Zapisywanie do {fileType}</h3>}
+            </> : modified.length === 0 ? <h3>Brak zmodyfikowanych danych do zapisania</h3>
+            : <h3>Zapisywanie do {fileType === 'DB' ? 'bazy danych' : fileType}</h3>}
             <p id='bttns'>
               <button onClick={backToWindow}>Powrót</button>
-              <button onClick={saveToFile} disabled={saved}>{loading ? 'Zapisywanie' : saved ? 'Zapisano' : 'Zapisz'}</button>
+              <button onClick={saveToFile} disabled={saved || modified.length === 0}>{loading ? 'Zapisywanie' : saved ? 'Zapisano' : 'Zapisz'}</button>
             </p>
         </div>
     </div>

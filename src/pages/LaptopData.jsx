@@ -17,6 +17,11 @@ const LaptopData = () => {
     const [fileType,setType] = useState('TXT')
     const [readingFile,setReadingFile] = useState('TXT')
 
+
+    useEffect(() => {
+      colorRows(products)
+    },[products])
+
     const loadTXT = () => {
       setReadingFile('TXT')
       window.api.send('toMainReadFile')
@@ -24,7 +29,7 @@ const LaptopData = () => {
        //console.log(`Received ${data} from main process`);
        check4duplicates(products,data)
        setProducts([...data,...products])
-       colorRows([...data,...products])
+       //colorRows([...data,...products])
       });
     }
 
@@ -35,23 +40,24 @@ const LaptopData = () => {
         var convertedData = converterObj2Array(data.laptops.laptop)
         check4duplicates(products,convertedData)
         setProducts([...convertedData,...products])
-        colorRows([...convertedData,...products])
+        //colorRows([...convertedData,...products])
       })
     }
 
     const saveFile = (type) => {
-      console.log('check data')
+      //console.log('check data')
       setBadData([])
       let tempData = []
       products.forEach((product,item) => {
-        if(product.includes('') || !product[1].match(/^[0-9]+"$/) || !product[2].match(/^[1-9][0-9]+x[1-9][0-9]+$/) || !(product[6]+'').match(/^[1-9]+$/) || !(product[7]+'').match(/^[1-9][0-9]+$/) ||
-          !product[8].match(/^[1-9]+GB$/) || !product[9].match(/^[1-9][0-9]+GB$/) || !product[12].match(/^[1-9][0-9]*GB$/))  
+        if((product.includes('') || !product[1].match(/^[0-9]+"$/) || !product[2].match(/^[1-9][0-9]+x[1-9][0-9]+$/) || !(product[6]+'').match(/^[1-9]+$/) || !(product[7]+'').match(/^[1-9][0-9]+$/) ||
+          !product[8].match(/^[1-9]+GB$/) || !product[9].match(/^[1-9][0-9]+GB$/) || !product[12].match(/^[1-9][0-9]*GB$/)) && !product.includes('duplicate'))  
           //checking if there are empty cells || if cell 1 is 12", || 1000x800 || liczba rdzeni np. 4 || taktowanie || ram - 8GB || pojemność dysku - 500GB || pamięć układu graficznego
           tempData.push(item)
       })
 
       //set fileType to save
       setType(type)
+      console.log(tempData)
 
       //console.log(tempData)
       if(tempData.length > 0){
@@ -73,11 +79,21 @@ const LaptopData = () => {
           //save new given data to products
           let updatedProducts = products
           updatedProducts[row][col] = newContent
-          updatedProducts[row].push('modified')
+          
+          //check if not duplicated
+          var dup = check4duplicates(products,[updatedProducts[row]])
+          console.log(dup)
+          if(dup < 2){
+           
+            //no duplicates
+            updatedProducts[row].pop()
+            updatedProducts[row].push('modified')
+
+            //change color
+            document.querySelector('#row'+row).style.backgroundColor = 'white'
+            document.querySelector('#row'+row).style.color = 'black'
+          }
           setProducts(updatedProducts)
-          //change color
-          document.querySelector('#row'+row).style.backgroundColor = 'white'
-          document.querySelector('#row'+row).style.color = 'black'
           //change input to text
           e.target.offsetParent.innerHTML = newContent
         }
@@ -98,12 +114,8 @@ const LaptopData = () => {
         //add products to view 
         setProducts([...arrayData,...products])
         //color new rows
-        colorRows([...arrayData,...products])
+        //colorRows([...arrayData,...products])
       })
-    }
-
-    const writeDB = () => {
-      console.log('writeDB')
     }
 
   return (
@@ -112,7 +124,7 @@ const LaptopData = () => {
             <Button text='Wczytaj dane z pliku TXT' handler={loadTXT}/>
             <Button text='Zapisz dane do pliku TXT' handler={() => saveFile('TXT')}/>
             <Button text='Import z Bazy Danych' handler={readDB}/>
-            <Button text='Eksport do Bazy Danych' handler={writeDB}/>
+            <Button text='Eksport do Bazy Danych' handler={() => saveFile('DB')}/>
             <Button text='Wczytaj dane z pliku XML' handler={loadXML}/>
             <Button text='Zapisz dane do pliku XML' handler={() => saveFile('XML')}/>
         </section>

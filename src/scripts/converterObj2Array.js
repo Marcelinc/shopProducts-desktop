@@ -1,6 +1,6 @@
 export const converterObj2Array = (data) => {
     let productsArray = []
-    console.log(data)
+    //console.log(data)
     data.map(d => {
         //console.log(d.disc[0].$.type)
         productsArray.push([
@@ -21,7 +21,7 @@ export const converterObj2Array = (data) => {
             d.disc_reader[0]
         ])
     })
-    console.log(productsArray)
+    //console.log(productsArray)
 
     return productsArray
 }

@@ -9,7 +9,7 @@ export const converterArray2XML = arrayProducts => {
             },
             laptop: 
                 arrayProducts.map((product,item) => {
-                    console.log('pr',product)
+                    //console.log('pr',product)
                     return {
                         $: {
                             id: item+1
