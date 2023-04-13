@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<laptops moddate="1680951748006">
+<laptops moddate="1681375962015">
   <laptop id="1">
-    <manufacturer>HP</manufacturer>
-    <screen touch="no">
-      <resolution>1600x900</resolution>
-      <size>12"</size>
+    <manufacturer>Asus</manufacturer>
+    <screen touch="yes">
+      <resolution>1600x800</resolution>
+      <size>14"</size>
       <type>matowy</type>
     </screen>
     <processor>
       <name>amd ryzen 5 3600</name>
-      <physical_cores>6</physical_cores>
+      <physical_cores>8</physical_cores>
       <clock_speed>3600</clock_speed>
     </processor>
-    <ram>16GB</ram>
+    <ram>32GB</ram>
     <disc type="SSD">
-      <storage>500GB</storage>
+      <storage>520GB</storage>
     </disc>
     <graphic_card>
       <name>GeForce RTX 3060</name>

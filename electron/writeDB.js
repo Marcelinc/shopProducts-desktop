@@ -54,25 +54,25 @@ const writeDB = async (Sequelize,data,win) => {
                         disc_reader: product[14],
                     })
                     const screen = await laptop.getScreen()
-                    //console.log('screen: ',screen)
-                    screen.set({touch: product[4],resolution: product[2], size: product[1], type: product[3]})
-                    screen.save().then(res => console.log(res)).catch(err => console.log(err))
+                    //console.log('touch---------------: ',product[4])
+                    screen.set({touch: product[4].toUpperCase() === 'YES' ? true : false,resolution: product[2], size: product[1], type: product[3]})
+                    screen.save().then(res => /*console.log(res)*/null).catch(err => console.log(err))
 
                     const processor = await laptop.getProcessor()
                     processor.set({name: product[5],physical_cores: product[6],clock_speed: product[7]})
-                    processor.save().then(res => console.log(res)).catch(err => console.log(err))
+                    processor.save().then(res => /*console.log(res)*/null).catch(err => console.log(err))
 
                     const ram = await laptop.getRam()
                     ram.set({capacity: product[8]})
-                    ram.save().then(res=> console.log(res)).catch(err => console.log(err))
+                    ram.save().then(res=> /*console.log(res)*/null).catch(err => console.log(err))
 
                     const graphic = await laptop.getGraphic_card()
                     graphic.set({name: product[11], memory: product[12]})
-                    graphic.save().then(res => console.log(res)).catch(err => console.log(err))
+                    graphic.save().then(res => /*console.log(res)*/null).catch(err => console.log(err))
 
                     const disc = await laptop.getDisc()
                     disc.set({type: product[10], storage: product[9]})
-                    disc.save().then(res => console.log(res)).catch(err => console.log(err))
+                    disc.save().then(res => /*console.log(res)*/null).catch(err => console.log(err))
 
 
                     // and save in db
@@ -83,6 +83,30 @@ const writeDB = async (Sequelize,data,win) => {
                         response = false
                     })
                 }                
+            } else{
+                //row doesn't contain an id - create new record
+                const newScreen = await Screen.create({touch: product[4].toUpperCase() === 'YES' ? true : false,resolution: product[2], size: product[1], type: product[3]})
+                //console.log('newScreen:',newScreen.id)
+                const newProcessor = await Processor.create({name: product[5],physical_cores: product[6],clock_speed: product[7]})
+                const newRam = await Ram.create({capacity: product[8]})
+                const newGraphic = await Graphic_card.create({name: product[11], memory: product[12]})
+                const newDisc = await Disc.create({type: product[10], storage: product[9]})
+
+                if(newScreen && newProcessor && newRam && newGraphic && newDisc){
+                    Laptop.create({
+                        manufacturer: product[0],
+                        os: product[13],
+                        disc_reader: product[14],
+                        screenId: newScreen.id,
+                        processorId: newProcessor.id,
+                        ramId: newRam.id,
+                        discId: newDisc.id,
+                        graphicId: newGraphic.id
+                    }).then(res => {
+                        if(res === null)
+                            response = false
+                    }).catch(err => {response = false})
+                }
             }
         })
         
