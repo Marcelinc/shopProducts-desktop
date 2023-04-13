@@ -106,7 +106,7 @@ const LaptopData = () => {
       setReadingFile('Database')
       window.api.send('toMainReadDB')
       window.api.receive('fromMainReadDB', (data) => {
-        console.log(data)
+        console.log('datafromdb:',data)
         let arrayData = converterDB2Array(data)
         let dup = check4duplicates(products,arrayData)
         setDuplicatesCount(dup)

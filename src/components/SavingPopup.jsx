@@ -12,15 +12,24 @@ const Popup = ({setWarning,badData,products,fileType}) => {
     //color all rows to white
     for(let i=0;i<products.length; i++){
       let row = document.querySelector('#row'+i)
-      //if(row)
+      //if(row && !products[data].includes('duplicate') && !products[data].includes('modified'))
         //row.style.backgroundColor="rgb(78, 74, 74)"
     }
+    
     //if not saved color rows with warnings
     if(!saved){
       badData.forEach(data => {
         let row = document.querySelector('#row'+data)
         if(row && !products[data].includes('duplicate'))
           row.style.backgroundColor="orange"
+      })
+    }
+    if(saved){
+      //if saved change to default colors
+      products.map((p,index) => {
+        if(p.includes('modified')){
+          ///change color
+        }
       })
     }
     

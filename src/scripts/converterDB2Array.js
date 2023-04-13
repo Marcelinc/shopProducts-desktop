@@ -16,7 +16,8 @@ export const converterDB2Array = (data) => {
         d['Graphic_card.name'],
         d['Graphic_card.memory'],
         d.os,
-        d.disc_reader
+        d.disc_reader,
+        d.id
     ]))
 
     //console.log('dataArray:',dataArray)

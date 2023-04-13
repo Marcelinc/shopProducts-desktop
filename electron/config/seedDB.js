@@ -107,7 +107,7 @@ const Laptop = sequelize.define('Laptop',{
     }*/
 })
 //Make associations
-    Laptop.belongsTo(Screen,{foreignKey: 'screenId'})
+    Laptop.belongsTo(Screen,{foreignKey: 'screenId', onUpdate: 'CASCADE'})
     Laptop.belongsTo(Processor, {foreignKey: 'processorId'})
     Laptop.belongsTo(Ram, {foreignKey: 'ramId'})
     Laptop.belongsTo(Disc, {foreignKey: 'discId'})
