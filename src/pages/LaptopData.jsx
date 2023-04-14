@@ -17,6 +17,8 @@ const LaptopData = () => {
     const [fileType,setType] = useState('TXT')
     const [readingFile,setReadingFile] = useState('TXT')
 
+    const [dbConnError,setDbConnErr] = useState(false)
+
 
     useEffect(() => {
       colorRows(products)
@@ -24,6 +26,7 @@ const LaptopData = () => {
 
     const loadTXT = () => {
       setReadingFile('TXT')
+      setDbConnErr(false)
       window.api.send('toMainReadFile')
       window.api.receive("fromMainReadFile", (data) => {
        //console.log(`Received ${data} from main process`);
@@ -35,6 +38,7 @@ const LaptopData = () => {
 
     const loadXML = () => {
       setReadingFile('XML')
+      setDbConnErr(false)
       window.api.send('toMainReadXML')
       window.api.receive('fromMainReadXML', (data) => {
         var convertedData = converterObj2Array(data.laptops.laptop)
@@ -57,7 +61,7 @@ const LaptopData = () => {
 
       //set fileType to save
       setType(type)
-      console.log(tempData)
+      //console.log(tempData)
 
       //console.log(tempData)
       if(tempData.length > 0){
@@ -76,24 +80,34 @@ const LaptopData = () => {
           //read data from input
           let newContent = e.target.value
           //console.log(e.target.offsetParent)
-          //save new given data to products
-          let updatedProducts = products
-          updatedProducts[row][col] = newContent
-          
-          //check if not duplicated
-          var dup = check4duplicates(products,[updatedProducts[row]])
-          console.log(dup)
-          if(dup < 2){
-           
-            //no duplicates
-            updatedProducts[row].pop()
-            updatedProducts[row].push('modified')
 
-            //change color
-            document.querySelector('#row'+row).style.backgroundColor = 'white'
-            document.querySelector('#row'+row).style.color = 'black'
+          //save new given data to products
+          if(newContent !== products[row][col]){
+            //other data entered
+            let updatedProducts = products
+            updatedProducts[row][col] = newContent
+            
+            //check if not duplicated
+            var dup = check4duplicates(products,[updatedProducts[row]])
+            //console.log(dup)
+            if(dup < 2){
+              //no duplicates
+
+              //remove duplicate string
+              /*let duplicate = updatedProducts[row].indexOf('duplicate')
+              console.log('duplicate:',duplicate)
+              if(duplicate > -1)
+                updatedProducts.splice(duplicate)*/
+              updatedProducts[row].push('modified')
+              updatedProducts[row] = updatedProducts[row].filter(r => r!== 'duplicate')
+
+              //change color
+              document.querySelector('#row'+row).style.backgroundColor = 'white'
+              document.querySelector('#row'+row).style.color = 'black'
+            }
+            setProducts(updatedProducts)
           }
-          setProducts(updatedProducts)
+          
           //change input to text
           e.target.offsetParent.innerHTML = newContent
         }
@@ -107,14 +121,18 @@ const LaptopData = () => {
       window.api.send('toMainReadDB')
       window.api.receive('fromMainReadDB', (data) => {
         console.log('datafromdb:',data)
-        let arrayData = converterDB2Array(data)
-        let dup = check4duplicates(products,arrayData)
-        setDuplicatesCount(dup)
-        setRecords(arrayData.length - dup)
-        //add products to view 
-        setProducts([...arrayData,...products])
-        //color new rows
-        //colorRows([...arrayData,...products])
+        //console.log(data.constructor)
+        if(data.constructor === Array){
+          setDbConnErr(false)
+          let arrayData = converterDB2Array(data)
+          let dup = check4duplicates(products,arrayData)
+          setDuplicatesCount(dup)
+          setRecords(arrayData.length - dup)
+          //add products to view 
+          setProducts([...arrayData,...products])
+          //color new rows
+          //colorRows([...arrayData,...products])
+        } else setDbConnErr(true)
       })
     }
 
@@ -129,7 +147,8 @@ const LaptopData = () => {
             <Button text='Zapisz dane do pliku XML' handler={() => saveFile('XML')}/>
         </section>
         <section className='content'>
-          {products.length > 0 && <p><strong>Źródło:</strong> {readingFile}{readingFile === 'Database' && ', odczytano ' + records + ' nowych rekordów, '+ duplicatesCount + ' duplikatów'} </p>}
+          {dbConnError && <p>Nie udało się pobrać danych z bazy</p>}
+          {products.length > 0 && <p><strong>Źródło:</strong> {readingFile}{readingFile === 'Database' &&  ', odczytano ' + records + ' nowych rekordów, '+ duplicatesCount + ' duplikatów'} </p>}
           <table>
             <thead>
               {products.length > 0 && <tr>

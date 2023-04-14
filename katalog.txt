@@ -1,2 +1,3 @@
-Dell;12";1600x700;matowy;no;amd ryzen 5 3600;6;3800;16GB;520GB;HDD;GeForce RTX 3060;12GB;Windows 10;brak;1;modified;modified;modified;modified;modified;
-HP;10";1400x800;matowy;no;i7;8;3200;8GB;240GB;SSD;intel HD Graphics 4000;1GB;Windows 11;Blu-Ray;
+Dell;12";1600x500;matowy;no;amd ryzen 5 3600;6;3800;16GB;520GB;HDD;GeForce RTX 3060;12GB;Windows 10;brak;1;
+Dell;12";1600x700;matowy;no;amd ryzen 5 3600;6;3800;16GB;520GB;HDD;GeForce RTX 3060;12GB;Windows 10;brak;1;
+HP;10";1400x800;matowy;no;i7;8;3200;8GB;240GB;SSD;intel HD Graphics 4000;1GB;Windows 11;;

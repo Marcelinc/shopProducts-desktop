@@ -1,5 +1,5 @@
 export const colorRows = (products) => {
-    console.log('colors:',products)
+    //console.log('colors:',products)
     products.map((row,index) => {
         if(!row.includes('modified') && !row.includes('duplicate')){
             document.querySelector('#row'+index).style.backgroundColor = '#4e4a4a'

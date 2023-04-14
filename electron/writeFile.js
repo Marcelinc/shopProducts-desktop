@@ -8,7 +8,9 @@ const writeFile = (filename,data,win) => {
     //convert data to string lines
     if(data && data.length > 0){
         data.forEach(row => {
-            row.forEach(rowInfo => {
+            const clearRow = row.filter(r => r!== 'modified')
+            console.log('clearRow:',clearRow)
+            clearRow.forEach(rowInfo => {
                 content += rowInfo+';'
             })
             content += '\n'

@@ -6,6 +6,7 @@ const Popup = ({setWarning,badData,products,fileType}) => {
 
   const [loading,setLoading] = useState(false)
   const [saved,setSaved] = useState(false)
+  const [saveRequested,setSaveRequested] = useState(false)
   const [modified,setModified] = useState(products.filter(p => !p.includes('duplicate')))
 
   const backToWindow = () => {
@@ -22,6 +23,7 @@ const Popup = ({setWarning,badData,products,fileType}) => {
         let row = document.querySelector('#row'+data)
         if(row && !products[data].includes('duplicate'))
           row.style.backgroundColor="orange"
+          row.style.color = 'brown'
       })
     }
     if(saved){
@@ -29,6 +31,11 @@ const Popup = ({setWarning,badData,products,fileType}) => {
       products.map((p,index) => {
         if(p.includes('modified')){
           ///change color
+          let row = document.querySelector('#row'+index)
+          if(row){
+            row.style.backgroundColor = 'rgb(78, 74, 74)'
+            row.style.color = 'rgb(30, 231, 147)'
+          }
         }
       })
     }
@@ -39,25 +46,27 @@ const Popup = ({setWarning,badData,products,fileType}) => {
 
   const saveToFile = () => {
     setLoading(true)
-    //console.log('productsTosave:',products)
+    console.log('productsTosave:',products)
 
     //saveToFile
     if(fileType === 'TXT'){
-      window.api.send('toMainWriteFile',products)
+      window.api.send('toMainWriteFile',modified)
 
       window.api.receive('fromMainWriteFile', response => {
         //console.log('Updated: ',response)
         setSaved(response)
         setLoading(false)
+        setSaveRequested(true)
       })
     }
     
     if(fileType === "XML"){
-      window.api.send('toMainWriteXML',converterArray2XML(products))
+      window.api.send('toMainWriteXML',converterArray2XML(modified))
       window.api.receive('fromMainWriteXML',res => {
         //console.log(res)
         setSaved(res)
-        setLoading(false)
+        setLoading(false) 
+        setSaveRequested(true)
       })
     }
 
@@ -67,6 +76,7 @@ const Popup = ({setWarning,badData,products,fileType}) => {
         console.log('res',res)
         setSaved(res)
         setLoading(false)
+        setSaveRequested(true)
       })
     }
 
@@ -78,14 +88,15 @@ const Popup = ({setWarning,badData,products,fileType}) => {
     <div className='popup'>
         <div className='content'>
             {badData.length > 0 ? <>
-              <h3>Tabela zawiera błędne dane</h3>
-              <span id='info'>Wprowadź prawidłowe dane lub ignoruj i zapisz zmiany do pliku</span>
+              <h3>Jedna z tabel zawiera błędne dane</h3>
+              <span id='info'>Wprowadź prawidłowe dane lub ignoruj i zapisz zmiany</span>
             </> : modified.length === 0 ? <h3>Brak zmodyfikowanych danych do zapisania</h3>
             : <h3>Zapisywanie do {fileType === 'DB' ? 'bazy danych' : fileType}</h3>}
             <p id='bttns'>
               <button onClick={backToWindow}>Powrót</button>
               <button onClick={saveToFile} disabled={saved || modified.length === 0}>{loading ? 'Zapisywanie' : saved ? 'Zapisano' : 'Zapisz'}</button>
             </p>
+            {!saved && saveRequested && <p>Nie udało się zapisać danych</p>}
         </div>
     </div>
   )

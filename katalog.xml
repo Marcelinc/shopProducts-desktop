@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<laptops moddate="1681375962015">
+<laptops moddate="1681486922303">
   <laptop id="1">
-    <manufacturer>Asus</manufacturer>
-    <screen touch="yes">
+    <manufacturer>Dell</manufacturer>
+    <screen touch="no">
       <resolution>1600x800</resolution>
-      <size>14"</size>
+      <size>12"</size>
       <type>matowy</type>
     </screen>
     <processor>
       <name>amd ryzen 5 3600</name>
-      <physical_cores>8</physical_cores>
-      <clock_speed>3600</clock_speed>
+      <physical_cores>6</physical_cores>
+      <clock_speed>3800</clock_speed>
     </processor>
-    <ram>32GB</ram>
-    <disc type="SSD">
+    <ram>16GB</ram>
+    <disc type="HDD">
       <storage>520GB</storage>
     </disc>
     <graphic_card>
@@ -45,5 +45,212 @@
     </graphic_card>
     <os>Windows 11</os>
     <disc_reader>Blu-Ray</disc_reader>
+  </laptop>
+  <laptop id="3">
+    <manufacturer>HP</manufacturer>
+    <screen touch="no">
+      <resolution>1400x800</resolution>
+      <size>10"</size>
+      <type>matowy</type>
+    </screen>
+    <processor>
+      <name>i7</name>
+      <physical_cores>8</physical_cores>
+      <clock_speed>3200</clock_speed>
+    </processor>
+    <ram>8GB</ram>
+    <disc type="SSD">
+      <storage>240GB</storage>
+    </disc>
+    <graphic_card>
+      <name>intel HD Graphics 4000</name>
+      <memory>1GB</memory>
+    </graphic_card>
+    <os>Windows 11</os>
+    <disc_reader>Blu-Ray</disc_reader>
+  </laptop>
+  <laptop id="4">
+    <manufacturer>HP</manufacturer>
+    <screen touch="no">
+      <resolution>1400x800</resolution>
+      <size>10"</size>
+      <type>matowy</type>
+    </screen>
+    <processor>
+      <name>i7</name>
+      <physical_cores>8</physical_cores>
+      <clock_speed>3200</clock_speed>
+    </processor>
+    <ram>8GB</ram>
+    <disc type="SSD">
+      <storage>240GB</storage>
+    </disc>
+    <graphic_card>
+      <name>intel HD Graphics 4000</name>
+      <memory>1GB</memory>
+    </graphic_card>
+    <os>Windows 11</os>
+    <disc_reader>Blu-Ray</disc_reader>
+  </laptop>
+  <laptop id="5">
+    <manufacturer>Asus</manufacturer>
+    <screen touch="yes">
+      <resolution>1600x800</resolution>
+      <size>14"</size>
+      <type>matowy</type>
+    </screen>
+    <processor>
+      <name>amd ryzen 5 3600</name>
+      <physical_cores>8</physical_cores>
+      <clock_speed>3600</clock_speed>
+    </processor>
+    <ram>32GB</ram>
+    <disc type="SSD">
+      <storage>520GB</storage>
+    </disc>
+    <graphic_card>
+      <name>GeForce RTX 3060</name>
+      <memory>12GB</memory>
+    </graphic_card>
+    <os>Windows 10</os>
+    <disc_reader>brak</disc_reader>
+  </laptop>
+  <laptop id="6">
+    <manufacturer>HP</manufacturer>
+    <screen touch="no">
+      <resolution>1400x800</resolution>
+      <size>10"</size>
+      <type>matowy</type>
+    </screen>
+    <processor>
+      <name>i7</name>
+      <physical_cores>8</physical_cores>
+      <clock_speed>3200</clock_speed>
+    </processor>
+    <ram>8GB</ram>
+    <disc type="SSD">
+      <storage>240GB</storage>
+    </disc>
+    <graphic_card>
+      <name>intel HD Graphics 4000</name>
+      <memory>1GB</memory>
+    </graphic_card>
+    <os>Windows 11</os>
+    <disc_reader/>
+  </laptop>
+  <laptop id="7">
+    <manufacturer>HP</manufacturer>
+    <screen touch="no">
+      <resolution>1400x800</resolution>
+      <size>10"</size>
+      <type>matowy</type>
+    </screen>
+    <processor>
+      <name>i7</name>
+      <physical_cores>8</physical_cores>
+      <clock_speed>3200</clock_speed>
+    </processor>
+    <ram>8GB</ram>
+    <disc type="SSD">
+      <storage>240GB</storage>
+    </disc>
+    <graphic_card>
+      <name>intel HD Graphics 4000</name>
+      <memory>1GB</memory>
+    </graphic_card>
+    <os>Windows 11</os>
+    <disc_reader/>
+  </laptop>
+  <laptop id="8">
+    <manufacturer>HP</manufacturer>
+    <screen touch="no">
+      <resolution>1400x800</resolution>
+      <size>10"</size>
+      <type>matowy</type>
+    </screen>
+    <processor>
+      <name>i7</name>
+      <physical_cores>8</physical_cores>
+      <clock_speed>3200</clock_speed>
+    </processor>
+    <ram>8GB</ram>
+    <disc type="SSD">
+      <storage>240GB</storage>
+    </disc>
+    <graphic_card>
+      <name>intel HD Graphics 4000</name>
+      <memory>1GB</memory>
+    </graphic_card>
+    <os>Windows 11</os>
+    <disc_reader/>
+  </laptop>
+  <laptop id="9">
+    <manufacturer>Dell</manufacturer>
+    <screen touch="no">
+      <resolution>1600x800</resolution>
+      <size>12"</size>
+      <type>matowy</type>
+    </screen>
+    <processor>
+      <name>amd ryzen 5 3600</name>
+      <physical_cores>6</physical_cores>
+      <clock_speed>3800</clock_speed>
+    </processor>
+    <ram>16GB</ram>
+    <disc type="HDD">
+      <storage>520GB</storage>
+    </disc>
+    <graphic_card>
+      <name>GeForce RTX 3060</name>
+      <memory>12GB</memory>
+    </graphic_card>
+    <os>Windows 10</os>
+    <disc_reader>brak</disc_reader>
+  </laptop>
+  <laptop id="10">
+    <manufacturer>Dell</manufacturer>
+    <screen touch="no">
+      <resolution>1600x700</resolution>
+      <size>12"</size>
+      <type>matowy</type>
+    </screen>
+    <processor>
+      <name>amd ryzen 5 3600</name>
+      <physical_cores>6</physical_cores>
+      <clock_speed>3800</clock_speed>
+    </processor>
+    <ram>16GB</ram>
+    <disc type="HDD">
+      <storage>520GB</storage>
+    </disc>
+    <graphic_card>
+      <name>GeForce RTX 3060</name>
+      <memory>12GB</memory>
+    </graphic_card>
+    <os>Windows 10</os>
+    <disc_reader>brak</disc_reader>
+  </laptop>
+  <laptop id="11">
+    <manufacturer>HP</manufacturer>
+    <screen touch="no">
+      <resolution>1400x800</resolution>
+      <size>10"</size>
+      <type>matowy</type>
+    </screen>
+    <processor>
+      <name>i7</name>
+      <physical_cores>8</physical_cores>
+      <clock_speed>3200</clock_speed>
+    </processor>
+    <ram>8GB</ram>
+    <disc type="SSD">
+      <storage>240GB</storage>
+    </disc>
+    <graphic_card>
+      <name>intel HD Graphics 4000</name>
+      <memory>1GB</memory>
+    </graphic_card>
+    <os>Windows 11</os>
+    <disc_reader/>
   </laptop>
 </laptops>
