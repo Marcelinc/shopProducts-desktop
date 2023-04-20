@@ -4,7 +4,7 @@ const { Laptop, Screen, Processor, Ram, Disc, Graphic_card } = require("./config
 
 const writeDB = async (Sequelize,data,win) => {
     var response = true
-    console.log(data)
+    //console.log(data)
 
     const sequelize = new Sequelize(dbConfig.DB,dbConfig.USER,dbConfig.PASSWORD,{
         host: dbConfig.HOST,
@@ -21,69 +21,71 @@ const writeDB = async (Sequelize,data,win) => {
      //test connection
      sequelize.authenticate().then(() => {
         data.map(async product => {
-            console.log('productTo Save',product)
-            if(product.includes('modified')){                   //check if modified
+            //console.log('productTo Save',product)
+                              //check if modified
                 if(product[15]+''.match(/^[0-9]+$/)){           //row has id
-                    //check if exists id db
-                    const laptop = await Laptop.findByPk(product[15],{
-                        include: [{
-                            model: Screen,
-                            attributes: {exclude: ['createdAt','updatedAt']}
-                        },{
-                            model: Processor,
-                            attributes: {exclude: ['createdAt','updatedAt']}
-                        },{
-                            model: Ram,
-                            attributes: {exclude: ['createdAt','updatedAt']}
-                        },{
-                            model: Disc,
-                            attributes: {exclude: ['createdAt','updatedAt']}
-                        },{
-                            model: Graphic_card,
-                            attributes: {exclude: ['createdAt','updatedAt']}
-                        }]
-                    })
-    
-                    if(laptop === null){
-                        //product not found
-                        response = false
-                    }else{
-                        //set new values
-                        laptop.set({
-                            manufacturer: product[0],
-                            os: product[13],
-                            disc_reader: product[14],
+                    if(product.includes('modified')){ 
+                        //check if exists id db
+                        const laptop = await Laptop.findByPk(product[15],{
+                            include: [{
+                                model: Screen,
+                                attributes: {exclude: ['createdAt','updatedAt']}
+                            },{
+                                model: Processor,
+                                attributes: {exclude: ['createdAt','updatedAt']}
+                            },{
+                                model: Ram,
+                                attributes: {exclude: ['createdAt','updatedAt']}
+                            },{
+                                model: Disc,
+                                attributes: {exclude: ['createdAt','updatedAt']}
+                            },{
+                                model: Graphic_card,
+                                attributes: {exclude: ['createdAt','updatedAt']}
+                            }]
                         })
-                        const screen = await laptop.getScreen()
-                        //console.log('touch---------------: ',product[4])
-                        screen.set({touch: product[4].toUpperCase() === 'YES' ? true : false,resolution: product[2], size: product[1], type: product[3]})
-                        screen.save().then(res => /*console.log(res)*/null).catch(err => console.log(err))
-    
-                        const processor = await laptop.getProcessor()
-                        processor.set({name: product[5],physical_cores: product[6],clock_speed: product[7]})
-                        processor.save().then(res => /*console.log(res)*/null).catch(err => console.log(err))
-    
-                        const ram = await laptop.getRam()
-                        ram.set({capacity: product[8]})
-                        ram.save().then(res=> /*console.log(res)*/null).catch(err => console.log(err))
-    
-                        const graphic = await laptop.getGraphic_card()
-                        graphic.set({name: product[11], memory: product[12]})
-                        graphic.save().then(res => /*console.log(res)*/null).catch(err => console.log(err))
-    
-                        const disc = await laptop.getDisc()
-                        disc.set({type: product[10], storage: product[9]})
-                        disc.save().then(res => /*console.log(res)*/null).catch(err => console.log(err))
-    
-    
-                        // and save in db
-                        laptop.save().then(res => {
-                            null//console.log(res)
-                        }).catch(err => {
-                            console.log(err)
+        
+                        if(laptop === null){
+                            //product not found
                             response = false
-                        })
-                    }                
+                        }else{
+                            //set new values
+                            laptop.set({
+                                manufacturer: product[0],
+                                os: product[13],
+                                disc_reader: product[14],
+                            })
+                            const screen = await laptop.getScreen()
+                            //console.log('touch---------------: ',product[4])
+                            screen.set({touch: product[4].toUpperCase() === 'YES' ? true : false,resolution: product[2], size: product[1], type: product[3]})
+                            screen.save().then(res => /*console.log(res)*/null).catch(err => console.log(err))
+        
+                            const processor = await laptop.getProcessor()
+                            processor.set({name: product[5],physical_cores: product[6],clock_speed: product[7]})
+                            processor.save().then(res => /*console.log(res)*/null).catch(err => console.log(err))
+        
+                            const ram = await laptop.getRam()
+                            ram.set({capacity: product[8]})
+                            ram.save().then(res=> /*console.log(res)*/null).catch(err => console.log(err))
+        
+                            const graphic = await laptop.getGraphic_card()
+                            graphic.set({name: product[11], memory: product[12]})
+                            graphic.save().then(res => /*console.log(res)*/null).catch(err => console.log(err))
+        
+                            const disc = await laptop.getDisc()
+                            disc.set({type: product[10], storage: product[9]})
+                            disc.save().then(res => /*console.log(res)*/null).catch(err => console.log(err))
+        
+        
+                            // and save in db
+                            laptop.save().then(res => {
+                                null//console.log(res)
+                            }).catch(err => {
+                                console.log(err)
+                                response = false
+                            })
+                        }                
+                    }
                 } else{
                     //row doesn't contain an id - create new record
                     const newScreen = await Screen.create({touch: product[4].toUpperCase() === 'YES' ? true : false,resolution: product[2], size: product[1], type: product[3]})
@@ -109,8 +111,7 @@ const writeDB = async (Sequelize,data,win) => {
                         }).catch(err => {response = false})
                     }
                 }
-            }
-        })
+            })
         
         
      }).catch(err => {
