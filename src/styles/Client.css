@@ -1,0 +1,19 @@
+.buttonsClient,#matrixBttn,#producerBttn{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.buttonsClient{
+    margin: 20px;
+}
+.clientSelect{
+    margin: 5px;
+    font-size: 1em;
+}
+#laptopCount{
+    width: min-content;
+    text-align: center;
+}
+.desc{
+    margin: 0.5em;
+}

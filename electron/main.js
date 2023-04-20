@@ -14,14 +14,16 @@ const IS_DEV = process.env.IS_IN_DEVELOPMENT || false
 //if app not working, uncomment 
 app.commandLine.appendSwitch('no-sandbox');
 
-let win
+let windows = new Set();
 
 async function createWindow () {
   // Create the main Electron window
-  win = new BrowserWindow({
+  let serverWin = new BrowserWindow({
     width: 1500,
-    height: 800,
-    title: 'Shop Products',
+    height: 500,
+    x: 0,
+    y: 0,
+    title: 'Shop Products - Server',
     webPreferences: {
       nodeIntegration: false,
       enableRemoteModule: false,
@@ -29,15 +31,34 @@ async function createWindow () {
       preload: path.join(__dirname,"preload.js")
     }
   })
+  let clientWin = new BrowserWindow({
+    width: 1500,
+    height: 500,
+    x: 0,
+    y:501,
+    title: 'Shop Products - Client',
+    webPreferences: {
+      nodeIntegration: false,
+      enableRemoteModule: false,
+      contextIsolation: true,
+      preload: path.join(__dirname,"preload.js")
+    }
+  })
+  windows.add(serverWin)
+  windows.add(clientWin)
 
   if (IS_DEV) {
     // If we are in development mode we load content from localhost server - vite
     // and open the developer tools
-    await win.loadURL('http://localhost:5173/')
-    win.webContents.openDevTools()
+    await serverWin.loadURL('http://localhost:5173/server')
+    //serverWin.webContents.openDevTools()
+
+    await clientWin.loadURL('http://localhost:5173/client')
+    clientWin.webContents.openDevTools()
   } else {
     // In all other cases, load the index.html file from the dist folder
-    win.loadURL(`file://${path.join(__dirname, '..' ,'dist', 'index.html')}`)
+    serverWin.loadURL(`file://${path.join(__dirname, '..' ,'dist', 'index.html')}`)
+    clientWin.loadURL(`file://${path.join(__dirname, '..' ,'dist', 'index.html')}`)
   }
 }
 
@@ -97,25 +118,25 @@ app.on('activate', () => {
 
 //reading txt
 ipcMain.on('toMainReadFile',(event,args) => {
-  readFile('katalog.txt',win)
+  readFile('katalog.txt',[...windows][0])
     //
 })
 ipcMain.on('toMainWriteFile',(event,args) => {
-  writeFile('katalog.txt',args,win)
+  writeFile('katalog.txt',args,[...windows][0])
 })
 
 //reading xml
 ipcMain.on('toMainReadXML',(event,args) => {
-  readXML('katalog.xml',win)
+  readXML('katalog.xml',[...windows][0])
 })
 ipcMain.on('toMainWriteXML',(event,args) => {
-  writeXML(args,win)
+  writeXML(args,[...windows][0])
 })
 
 //reading DB
 ipcMain.on('toMainReadDB',(event,args) => {
-  readDB(Sequelize,win)
+  readDB(Sequelize,[...windows][0])
 })
 ipcMain.on('toMainWriteDB',(event,args) => {
-  writeDB(Sequelize,args,win)
+  writeDB(Sequelize,args,[...windows][0])
 })
