@@ -8,6 +8,9 @@ import { readDB } from '../readDB.js'
 import { Sequelize } from 'sequelize'
 import { seedDB } from '../config/seedDB.js'
 import { writeDB } from '../writeDB.js'
+import { sendSoapRequest } from '../soapClient.js'
+import { sendSoapClientLaptopListByMatrixType } from '../soapClient.js'
+import { sendSoapClientLaptopListByResolution } from '../soapClient.js'
 
 const IS_DEV = process.env.IS_IN_DEVELOPMENT || false
 
@@ -139,4 +142,16 @@ ipcMain.on('toMainReadDB',(event,args) => {
 })
 ipcMain.on('toMainWriteDB',(event,args) => {
   writeDB(Sequelize,args,[...windows][0])
+})
+
+ipcMain.on('toMainSoapLaptopCountByProducer',(event,args) => {
+  sendSoapRequest(args,[...windows][1])
+})
+
+ipcMain.on('toMainSoapLaptopListByMatrixType',(event,args) => {
+  sendSoapClientLaptopListByMatrixType(args,[...windows][1])
+})
+
+ipcMain.on('toMainSoapLaptopCountByResolution',(event,args) => {
+  sendSoapClientLaptopListByResolution(args,[...windows][1])
 })

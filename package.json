@@ -9,15 +9,18 @@
     "build": "vite build",
     "preview": "vite preview",
     "esbuild-cjs": "esbuild ./electron/main.js --format=cjs --outfile=./electron/dist/main.cjs",
-    "electron:dev": "npm run esbuild-cjs && cross-env IS_IN_DEVELOPMENT=true electron ."
+    "electron:dev": "npm run esbuild-cjs && cross-env IS_IN_DEVELOPMENT=true electron .",
+    "soap-dev": "node ./backend/soap/server.js"
   },
   "dependencies": {
     "cross-env": "^7.0.3",
+    "express": "^4.18.2",
     "mysql2": "^3.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
     "sequelize": "^6.30.0",
+    "soap": "^1.0.0",
     "xml2js": "^0.4.23"
   },
   "devDependencies": {

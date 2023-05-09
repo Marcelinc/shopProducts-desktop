@@ -1,7 +1,7 @@
-.buttonsClient,#matrixBttn,#producerBttn{
+.buttonsClient{
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
 }
 .buttonsClient{
     margin: 20px;
@@ -13,7 +13,21 @@
 #laptopCount{
     width: min-content;
     text-align: center;
+    border: 1px solid rgb(146, 148, 46);
+    padding: 5px;
+    border-radius: 5px;
+    background-color: rgb(43, 228, 166);
+    color: rgb(32, 32, 15);
+    min-width: 50px;
 }
 .desc{
     margin: 0.5em;
+}
+.fetchInfo{
+    color: rgb(100, 17, 17);
+    margin: 5px;
+    font-weight: bold;
+}
+.contentClient{
+    margin: 15px;
 }
