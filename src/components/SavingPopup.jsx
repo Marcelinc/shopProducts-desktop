@@ -70,7 +70,8 @@ const Popup = ({setWarning,badData,products,fileType}) => {
       })
     }
 
-    if(fileType === 'DB'){
+    //on electron
+    /*if(fileType === 'DB'){
       window.api.send('toMainWriteDB',modified)
       window.api.receive('fromMainWriteDB',res => {
         console.log('res',res)
@@ -78,6 +79,21 @@ const Popup = ({setWarning,badData,products,fileType}) => {
         setLoading(false)
         setSaveRequested(true)
       })
+    }*/
+
+    //on express
+    if(fileType === 'DB'){
+      fetch('http://localhost:5001/api/laptops/update',{
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+      }).then(res => res.json())
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => console.log(err))
     }
 
     //close popup

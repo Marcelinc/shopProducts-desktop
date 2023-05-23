@@ -25,7 +25,7 @@ const RestClient = () => {
     },[products])
 
     const loadTXT = () => {
-      /*setReadingFile('TXT')
+      setReadingFile('TXT')
       setDbConnErr(false)
       window.api.send('toMainReadFile')
       window.api.receive("fromMainReadFile", (data) => {
@@ -33,11 +33,11 @@ const RestClient = () => {
        check4duplicates(products,data)
        setProducts([...data,...products])
        //colorRows([...data,...products])
-      });*/
+      });
     }
 
     const loadXML = () => {
-      /*setReadingFile('XML')
+      setReadingFile('XML')
       setDbConnErr(false)
       window.api.send('toMainReadXML')
       window.api.receive('fromMainReadXML', (data) => {
@@ -45,12 +45,12 @@ const RestClient = () => {
         check4duplicates(products,convertedData)
         setProducts([...convertedData,...products])
         //colorRows([...convertedData,...products])
-      })*/
+      })
     }
 
     const saveFile = (type) => {
       //console.log('check data')
-      /*setBadData([])
+      setBadData([])
       let tempData = []
       products.forEach((product,item) => {
         if((product.includes('') || !product[1].match(/^[0-9]+"$/) || !product[2].match(/^[1-9][0-9]+x[1-9][0-9]+$/) || !(product[6]+'').match(/^[1-9]+$/) || !(product[7]+'').match(/^[1-9][0-9]+$/) ||
@@ -67,7 +67,7 @@ const RestClient = () => {
       if(tempData.length > 0){
         setBadData(tempData)
       }
-      setWarning(true)*/
+      setWarning(true)
     }
 
     const setInput = (e,row,col) => {
@@ -122,25 +122,20 @@ const RestClient = () => {
         headers: {
             'Content-Type': 'application/json'
         },
-        //body: JSON.stringify({name:'Dell'})
       }).then(res => res.json())
-      .then(res => console.log(res))
-      .catch(err => console.error(err))
-      /*window.api.receive('fromMainReadDB', (data) => {
-        console.log('datafromdb:',data)
-        //console.log(data.constructor)
-        if(data.constructor === Array){
+      .then(res => {
+        console.log(res)
+        if(res.message === 'Success'){
           setDbConnErr(false)
-          let arrayData = converterDB2Array(data)
+          let arrayData = converterDB2Array(res.data)
           let dup = check4duplicates(products,arrayData)
           setDuplicatesCount(dup)
           setRecords(arrayData.length - dup)
           //add products to view 
           setProducts([...arrayData,...products])
-          //color new rows
-          //colorRows([...arrayData,...products])
         } else setDbConnErr(true)
-      })*/
+      })
+      .catch(err => console.error(err))
     }
 
   return (
@@ -184,7 +179,7 @@ const RestClient = () => {
                 <td className='col1' onDoubleClick={e => setInput(e,item,1)}>{product[1]}</td>
                 <td className='col2' onDoubleClick={e => setInput(e,item,2)}>{product[2]}</td>
                 <td className='col3' onDoubleClick={e => setInput(e,item,3)}>{product[3]}</td>
-                <td className='col4' onDoubleClick={e => setInput(e,item,4)}>{product[4]}</td>
+                <td className='col4' onDoubleClick={e => setInput(e,item,4)}>{product[4] ? 'tak' : 'nie'}</td>
                 <td className='col5' onDoubleClick={e => setInput(e,item,5)}>{product[5]}</td>
                 <td className='col6' onDoubleClick={e => setInput(e,item,6)}>{product[6]}</td>
                 <td className='col7' onDoubleClick={e => setInput(e,item,7)}>{product[7]}</td>

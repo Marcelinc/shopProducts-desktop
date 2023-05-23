@@ -4,7 +4,7 @@ export const check4duplicates = (actualData,fetchedData) => {
     var duplicates = 0
 
     fetched.map(fetchedRow => {
-        //console.log('fetchedrow: ',fetchedRow)
+        console.log('fetchedrow: ',fetchedRow)
 
         //if(fetchedRow.includes('modified') || fetchedRow.includes('duplicate'))
             //fetchedRow.pop()
