@@ -10,9 +10,11 @@
     "preview": "vite preview",
     "esbuild-cjs": "esbuild ./electron/main.js --format=cjs --outfile=./electron/dist/main.cjs",
     "electron:dev": "npm run esbuild-cjs && cross-env IS_IN_DEVELOPMENT=true electron .",
-    "soap-dev": "node ./backend/soap/server.js"
+    "soap-dev": "node ./backend/soap/server.js",
+    "rest:dev": "nodemon ./backend/rest/index"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "express": "^4.18.2",
     "mysql2": "^3.2.0",

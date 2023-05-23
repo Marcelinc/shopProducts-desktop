@@ -21,7 +21,7 @@ let windows = new Set();
 
 async function createWindow () {
   // Create the main Electron window
-  let serverWin = new BrowserWindow({
+  /*let serverWin = new BrowserWindow({
     width: 1500,
     height: 500,
     x: 0,
@@ -46,22 +46,41 @@ async function createWindow () {
       contextIsolation: true,
       preload: path.join(__dirname,"preload.js")
     }
+  })*/
+  let restClientWin = new BrowserWindow({
+    width:1400,
+    height:600,
+    x:0,
+    y:0,
+    title: 'Shop Products - Rest Client',
+    webPreferences: {
+      nodeIntegration: false,
+      enableRemoteModule: false,
+      contextIsolation:true,
+      preload: path.join(__dirname,"preload.js")
+    }
   })
-  windows.add(serverWin)
-  windows.add(clientWin)
+  //windows.add(serverWin)
+  //windows.add(clientWin)
+  windows.add(restClientWin)
 
   if (IS_DEV) {
     // If we are in development mode we load content from localhost server - vite
     // and open the developer tools
-    await serverWin.loadURL('http://localhost:5173/server')
+    //await serverWin.loadURL('http://localhost:5173/server')
     //serverWin.webContents.openDevTools()
 
-    await clientWin.loadURL('http://localhost:5173/client')
-    clientWin.webContents.openDevTools()
+    //await clientWin.loadURL('http://localhost:5173/client')
+    //clientWin.webContents.openDevTools()
+
+    await restClientWin.loadURL('http://localhost:5173/restClient')
+    restClientWin.webContents.openDevTools()
+
   } else {
     // In all other cases, load the index.html file from the dist folder
-    serverWin.loadURL(`file://${path.join(__dirname, '..' ,'dist', 'index.html')}`)
-    clientWin.loadURL(`file://${path.join(__dirname, '..' ,'dist', 'index.html')}`)
+    //serverWin.loadURL(`file://${path.join(__dirname, '..' ,'dist', 'index.html')}`)
+    //clientWin.loadURL(`file://${path.join(__dirname, '..' ,'dist', 'index.html')}`)
+    restClientWin.loadURL(`file://${path.join(__dirname, '..' ,'dist', 'index.html')}`)
   }
 }
 
@@ -144,6 +163,8 @@ ipcMain.on('toMainWriteDB',(event,args) => {
   writeDB(Sequelize,args,[...windows][0])
 })
 
+
+//soap
 ipcMain.on('toMainSoapLaptopCountByProducer',(event,args) => {
   sendSoapRequest(args,[...windows][1])
 })
@@ -155,3 +176,6 @@ ipcMain.on('toMainSoapLaptopListByMatrixType',(event,args) => {
 ipcMain.on('toMainSoapLaptopCountByResolution',(event,args) => {
   sendSoapClientLaptopListByResolution(args,[...windows][1])
 })
+
+
+//rest
