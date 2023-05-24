@@ -1,0 +1,10 @@
+.inputs{
+    display: grid;
+}
+.inputs label{
+    display: flex;
+    justify-content: space-between;
+}
+.inputs label input{
+    margin-inline: 5px;
+}

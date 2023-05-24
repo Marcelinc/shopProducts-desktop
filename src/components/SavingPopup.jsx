@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import '../styles/Popup.css'
 import { converterArray2XML } from '../scripts/converterArray2XML'
 
@@ -7,7 +7,13 @@ const Popup = ({setWarning,badData,products,fileType}) => {
   const [loading,setLoading] = useState(false)
   const [saved,setSaved] = useState(false)
   const [saveRequested,setSaveRequested] = useState(false)
-  const [modified,setModified] = useState(products.filter(p => !p.includes('duplicate')))
+  const [noDuplicates,setNoDuplicates] = useState(products.filter(p => !p.includes('duplicate')))
+  const [modified,setModified] = useState(products.filter(p => p.includes('modified') && !p.includes('duplicate')))
+
+
+  /*useEffect(() => {
+    setModified(products.filter(p => p.includes('modified') && !p.includes('duplicate')))
+  },[products])*/
 
   const backToWindow = () => {
     //color all rows to white
@@ -50,7 +56,7 @@ const Popup = ({setWarning,badData,products,fileType}) => {
 
     //saveToFile
     if(fileType === 'TXT'){
-      window.api.send('toMainWriteFile',modified)
+      window.api.send('toMainWriteFile',noDuplicates)
 
       window.api.receive('fromMainWriteFile', response => {
         //console.log('Updated: ',response)
@@ -61,7 +67,7 @@ const Popup = ({setWarning,badData,products,fileType}) => {
     }
     
     if(fileType === "XML"){
-      window.api.send('toMainWriteXML',converterArray2XML(modified))
+      window.api.send('toMainWriteXML',converterArray2XML(noDuplicates))
       window.api.receive('fromMainWriteXML',res => {
         //console.log(res)
         setSaved(res)
@@ -72,7 +78,7 @@ const Popup = ({setWarning,badData,products,fileType}) => {
 
     //on electron
     /*if(fileType === 'DB'){
-      window.api.send('toMainWriteDB',modified)
+      window.api.send('toMainWriteDB',noDuplicates)
       window.api.receive('fromMainWriteDB',res => {
         console.log('res',res)
         setSaved(res)
@@ -83,17 +89,26 @@ const Popup = ({setWarning,badData,products,fileType}) => {
 
     //on express
     if(fileType === 'DB'){
-      fetch('http://localhost:5001/api/laptops/update',{
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({})
-      }).then(res => res.json())
-      .then(res => {
-        console.log(res)
-      })
-      .catch(err => console.log(err))
+      //there are modified rows
+      if(modified.length > 0){
+        fetch('http://localhost:5001/api/laptops/update',{
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({modified})
+        }).then(res => res.json())
+        .then(res => {
+          console.log(res)
+          setSaved(res)
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+          setLoading(false)
+        })
+      }
+      //there are rows without id
+      
     }
 
     //close popup

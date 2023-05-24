@@ -6,6 +6,7 @@ import '../styles/LaptopData.css'
 import { converterDB2Array } from '../scripts/converterDB2Array'
 import { check4duplicates } from '../scripts/duplicates'
 import { colorRows } from '../scripts/colorRows'
+import NewLaptopForm from '../components/NewLaptopForm'
 
 const RestClient = () => {
 
@@ -16,7 +17,7 @@ const RestClient = () => {
     const [badData,setBadData] = useState([])
     const [fileType,setType] = useState('TXT')
     const [readingFile,setReadingFile] = useState('TXT')
-
+    const [addNewLaptop,setAddNewLaptop] = useState(false)
     const [dbConnError,setDbConnErr] = useState(false)
 
 
@@ -85,7 +86,10 @@ const RestClient = () => {
           if(newContent !== products[row][col]){
             //other data entered
             let updatedProducts = products
-            updatedProducts[row][col] = newContent
+              updatedProducts[row][col] = newContent
+            //if(newContent === 'tak')
+              //updatedProducts[row][col] = true
+            //else updatedProducts[row][col] = false
             
             //check if not duplicated
             var dup = check4duplicates(products,[updatedProducts[row]])
@@ -147,6 +151,7 @@ const RestClient = () => {
             <Button text='Eksport do Bazy Danych' handler={() => saveFile('DB')}/>
             <Button text='Wczytaj dane z pliku XML' handler={loadXML}/>
             <Button text='Zapisz dane do pliku XML' handler={() => saveFile('XML')}/>
+            <Button text='Dodaj nowy laptop' handler={() => setAddNewLaptop(true)}/>
         </section>
         <section className='content'>
           {dbConnError && <p>Nie udało się pobrać danych z bazy</p>}
@@ -179,7 +184,7 @@ const RestClient = () => {
                 <td className='col1' onDoubleClick={e => setInput(e,item,1)}>{product[1]}</td>
                 <td className='col2' onDoubleClick={e => setInput(e,item,2)}>{product[2]}</td>
                 <td className='col3' onDoubleClick={e => setInput(e,item,3)}>{product[3]}</td>
-                <td className='col4' onDoubleClick={e => setInput(e,item,4)}>{product[4] ? 'tak' : 'nie'}</td>
+                <td className='col4' onDoubleClick={e => setInput(e,item,4)}>{product[4] ? 'nie' : 'tak'}</td>
                 <td className='col5' onDoubleClick={e => setInput(e,item,5)}>{product[5]}</td>
                 <td className='col6' onDoubleClick={e => setInput(e,item,6)}>{product[6]}</td>
                 <td className='col7' onDoubleClick={e => setInput(e,item,7)}>{product[7]}</td>
@@ -195,6 +200,7 @@ const RestClient = () => {
           </table>
         </section>
         {showWarning && <SavingPopup setWarning={setWarning} badData={badData} products={products} fileType={fileType}/>}
+        {addNewLaptop && <NewLaptopForm setAddNewLaptop={setAddNewLaptop}/>}
     </div>
   )
 }
