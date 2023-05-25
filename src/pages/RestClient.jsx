@@ -200,7 +200,7 @@ const RestClient = () => {
           </table>
         </section>
         {showWarning && <SavingPopup setWarning={setWarning} badData={badData} products={products} fileType={fileType}/>}
-        {addNewLaptop && <NewLaptopForm setAddNewLaptop={setAddNewLaptop}/>}
+        {addNewLaptop && <NewLaptopForm setAddNewLaptop={setAddNewLaptop} products={products} setProducts={setProducts}/>}
     </div>
   )
 }

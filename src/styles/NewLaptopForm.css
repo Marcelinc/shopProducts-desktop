@@ -1,10 +1,18 @@
 .inputs{
     display: grid;
+    overflow: auto;
 }
 .inputs label{
     display: flex;
     justify-content: space-between;
+    margin: 10px;
 }
 .inputs label input{
     margin-inline: 5px;
+}
+.buttons{
+    color:rgb(28, 79, 112);
+}
+.popup .content{
+    min-height: 400px;
 }

@@ -1,5 +1,8 @@
 const {Laptop,Screen,Processor,Disc,Graphic_card,Ram} = require('../../../electron/config/seedDB') 
 
+// @desc    Get laptops
+// @route   GET /api/laptops
+// @access  public
 const getAllLaptops = async (req,res) => {
     Laptop.findAll({
         raw: true,
@@ -29,6 +32,9 @@ const getAllLaptops = async (req,res) => {
     })
 }
 
+// @desc    Update laptop
+// @router  PUT /api/laptops/update
+// @access  public
 const updateLaptop = (req, res) => {
     var {modified} = req.body
     console.log(modified)
@@ -108,7 +114,47 @@ const updateLaptop = (req, res) => {
     } else res.status(400).json({message: 'Brak danych do zapisania'})
 }
 
+// @desc    Create a new laptop
+// @route   /api/laptops/create
+// @access  public
+const createLaptop = async (req,res) => {
+    console.log(req.body.laptop)
+    const {laptop} = req.body
+    if(laptop && laptop.producer !== undefined && laptop.producer !== ''){
+        const newScreen = await Screen.create({touch: laptop.screenTouch.toUpperCase() === 'TAK' ? true : false,resolution: laptop.resolution,
+        size: laptop.screenSize, type: laptop.screenType})
+        //console.log('newScreen:',newScreen.id)
+        const newProcessor = await Processor.create({name: laptop.processor,physical_cores: laptop.processorCors,clock_speed: laptop.processorClockSpeed})
+        const newRam = await Ram.create({capacity: laptop.ram})
+        const newGraphic = await Graphic_card.create({name: laptop.graphicCard, memory: laptop.graphicCardMemory})
+        const newDisc = await Disc.create({type: laptop.discType, storage: laptop.discStorage})
+        
+        if(newScreen && newProcessor && newRam && newGraphic && newDisc){
+            Laptop.create({
+                manufacturer: laptop.producer,
+                os: laptop.os,
+                disc_reader: laptop.discReader,
+                screenId: newScreen.id,
+                processorId: newProcessor.id,
+                ramId: newRam.id,
+                discId: newDisc.id,
+                graphicId: newGraphic.id
+            }).then(response => {
+                console.log(response.dataValues)
+                if(response === null)
+                    res.status(500).json({message: 'Błąd zapisu'})
+                else res.status(200).json({message:'Zapisano', laptopId: response.dataValues.id})
+            }).catch(err => {
+                console.log(err)
+                res.status(500).json({message: 'Błąd podczas zapisu'})
+            })
+        }
+    } else res.status(400).json({message: 'Niepoprawne żądanie'})
+    
+} 
+
 module.exports = {
     getAllLaptops,
-    updateLaptop
+    updateLaptop,
+    createLaptop,
 }
