@@ -7,6 +7,7 @@ import { converterDB2Array } from '../scripts/converterDB2Array'
 import { check4duplicates } from '../scripts/duplicates'
 import { colorRows } from '../scripts/colorRows'
 import NewLaptopForm from '../components/NewLaptopForm'
+import MenuContext from '../components/MenuContext'
 
 const RestClient = () => {
 
@@ -20,10 +21,24 @@ const RestClient = () => {
     const [addNewLaptop,setAddNewLaptop] = useState(false)
     const [dbConnError,setDbConnErr] = useState(false)
 
+    const [clicked,setClicked] = useState(false)
+    const [points,setPoints] = useState({
+        x:0,
+        y:0
+    })
+
 
     useEffect(() => {
       colorRows(products)
     },[products])
+
+    useEffect(() => {
+      const handleClick = () => setClicked(false)
+      window.addEventListener('click', handleClick)
+      return () => {
+          window.removeEventListener('click', handleClick)
+      }
+    },[])
 
     const loadTXT = () => {
       setReadingFile('TXT')
@@ -139,7 +154,10 @@ const RestClient = () => {
           setProducts([...arrayData,...products])
         } else setDbConnErr(true)
       })
-      .catch(err => console.error(err))
+      .catch(err => {
+        console.error(err)
+        setDbConnErr(true)
+      })
     }
 
   return (
@@ -177,8 +195,13 @@ const RestClient = () => {
                 <th>Napęd</th>
               </tr>}
             </thead>
-            <tbody>
-              {products.length > 0 && products.map((product,item) => <tr key={item} id={'row'+item}>
+            <tbody onContextMenu={e => {
+                e.preventDefault()
+                setClicked(true)
+                setPoints({x: e.pageX, y: e.pageY})
+                //console.log('clicked ',e.pageX,e.pageY)
+            }}>
+              {products.length > 0 && products.map((product,item) => <tr key={item} id={'row'+item} className='productRow'>
                 <td>{item+1}</td>
                 <td className='col0' onDoubleClick={e => setInput(e,item,0)}>{product[0]}</td>
                 <td className='col1' onDoubleClick={e => setInput(e,item,1)}>{product[1]}</td>
@@ -201,6 +224,7 @@ const RestClient = () => {
         </section>
         {showWarning && <SavingPopup setWarning={setWarning} badData={badData} products={products} fileType={fileType}/>}
         {addNewLaptop && <NewLaptopForm setAddNewLaptop={setAddNewLaptop} products={products} setProducts={setProducts}/>}
+        {clicked && <MenuContext top={points.y} left={points.x}/>}
     </div>
   )
 }

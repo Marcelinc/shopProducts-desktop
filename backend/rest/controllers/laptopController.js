@@ -153,8 +153,17 @@ const createLaptop = async (req,res) => {
     
 } 
 
+
+// @desc    Delete a laptop
+// @route   /api/laptops/delete/:id
+// @access  public
+const deleteLaptop = (req, res) => {
+    console.log(req.params.id)
+}
+
 module.exports = {
     getAllLaptops,
     updateLaptop,
     createLaptop,
+    deleteLaptop
 }

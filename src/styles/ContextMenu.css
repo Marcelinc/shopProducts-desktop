@@ -1,0 +1,18 @@
+.contextContainer{
+    background-color: rgb(48, 51, 90);
+    color: antiquewhite;
+    padding-block: 0.5em;
+    width: 100px;
+    border-radius: 2px;
+}
+.contextItem{
+    background-color: rgb(123 128 194 / 28%);
+    margin: 0.3em;
+    padding: 5px;
+    text-align: center;
+    
+}
+.contextItem:hover{
+    opacity: 0.6;
+    cursor:pointer;
+}

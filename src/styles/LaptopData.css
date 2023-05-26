@@ -17,3 +17,6 @@ tr{
 .buttons,.content{
     margin-inline: 2em;
 }
+.productRow:hover{
+    opacity: 0.8;
+}
