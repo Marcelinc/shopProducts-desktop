@@ -21,6 +21,7 @@ const RestClient = () => {
     const [addNewLaptop,setAddNewLaptop] = useState(false)
     const [dbConnError,setDbConnErr] = useState(false)
 
+    const [productArraysId,setProductArraysId] = useState(null)
     const [clicked,setClicked] = useState(false)
     const [points,setPoints] = useState({
         x:0,
@@ -200,6 +201,19 @@ const RestClient = () => {
                 setClicked(true)
                 setPoints({x: e.pageX, y: e.pageY})
                 //console.log('clicked ',e.pageX,e.pageY)
+
+                let arrayId = e.target.parentElement.id.substring(3)
+                setProductArraysId(arrayId)
+                //console.log('clicked ',e.target.parentElement.id.substring(3))
+
+                //let productId = products[arrayId]
+                
+                //console.log('clicked ',product)
+
+                //check if product is from db - has an id
+                //if(parseInt(product[15])){
+                //  setClicked(true)
+                //}
             }}>
               {products.length > 0 && products.map((product,item) => <tr key={item} id={'row'+item} className='productRow'>
                 <td>{item+1}</td>
@@ -224,7 +238,7 @@ const RestClient = () => {
         </section>
         {showWarning && <SavingPopup setWarning={setWarning} badData={badData} products={products} fileType={fileType}/>}
         {addNewLaptop && <NewLaptopForm setAddNewLaptop={setAddNewLaptop} products={products} setProducts={setProducts}/>}
-        {clicked && <MenuContext top={points.y} left={points.x}/>}
+        {clicked && <MenuContext top={points.y} left={points.x} productArraysId={productArraysId} products={products} setProducts={setProducts}/>}
     </div>
   )
 }

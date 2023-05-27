@@ -157,8 +157,27 @@ const createLaptop = async (req,res) => {
 // @desc    Delete a laptop
 // @route   /api/laptops/delete/:id
 // @access  public
-const deleteLaptop = (req, res) => {
+const deleteLaptop = async (req, res) => {
     console.log(req.params.id)
+    const id = req.params.id
+
+    const laptop = await Laptop.findByPk(id)
+    console.log('laptop',laptop)
+
+    //check if product exists
+    if(laptop !== null){
+        //delete product
+        const deleted = await laptop.destroy()
+        console.log(deleted)
+        if(deleted){
+            res.status(200).json({message: 'Deleted'})
+        } else{
+            res.status(500).json({message: 'Problem with deleting'})
+        }
+
+    } else{
+        res.status(400).json({message: 'Product not exists'})
+    }
 }
 
 module.exports = {
