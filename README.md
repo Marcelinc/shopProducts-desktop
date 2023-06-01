@@ -2,9 +2,9 @@
 ### Built With
 * [![React][React.js]][React-url]
 * [![Electron][Electron.js]][Electron-url]
-* [![MySQL][MySQL.img]]
+* [![MySQL][MySQL.img]][MySQL-url]
 * [![Sequelize][Sequelize.img]][Sequelize-url]
-#Electron +React App
+
 ### Screens
 #![obraz](https://user-images.githubusercontent.com/82237491/224729035-17a9a15f-ad2e-4c5f-8f48-1d29a2655f7f.png)
 #![obraz](https://user-images.githubusercontent.com/82237491/224729143-7f067ad2-8af0-4522-a1db-93900e5471af.png)
@@ -17,6 +17,7 @@
 [Electron.js]: https://img.shields.io/badge/Express.js-404D59?style=for-the-badge
 [Electron-url]: https://www.electronjs.org/
 [MySQL.img]: https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white
+[MySQL-url]: #
 [Sequelize.img]: https://img.shields.io/badge/sequelize-323330?style=for-the-badge&logo=sequelize&logoColor=blue
 [Sequelize-url]: https://sequelize.org/
 
