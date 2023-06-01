@@ -17,7 +17,7 @@
 [React-url]: https://reactjs.org/
 [Express.js]: https://img.shields.io/badge/Express.js-404D59?style=for-the-badge
 [Express-url]: https://expressjs.com/
-[Electron.js]: 
+[Electron.js]: #
 [Electron-url]: https://www.electronjs.org/
 [MySQL.img]: https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white
 [MySQL-url]: #
